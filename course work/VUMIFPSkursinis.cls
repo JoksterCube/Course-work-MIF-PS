@@ -321,3 +321,5 @@
 % Tarpai tarp išnašų eilučių nustatomi į 1.5 eilutės
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\onehalfspacing #1}}
+
+\newcommand{\code}[1]{\texttt{#1}}
