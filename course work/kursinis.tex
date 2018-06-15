@@ -119,13 +119,13 @@ Su vis didėjančiais duomenų kiekiais ir generavimo greičiais didėja ir duom
 
 
 \section{Duomenų analizės eksperimentas naudojant „MacroBase“ analitinį įrankį}
-Eksperimentui atlikti buvo pasirinktas „MacroBase GUI“ analitinio įrankio „MacroBase“ grafinė naudotojo sąsaja. CSV tipo failai buvo pasirinktas duomenų šaltinio tipas atliekant eksperimentą.
+Eksperimentui atlikti buvo pasirinktas „MacroBase GUI“ analitinio įrankio „MacroBase“ grafinė naudotojo sąsaja. Į „MacroBase GUI“ eksperimento metu buvo žiūrima kaip į „juodąją dėžę“.  CSV tipo failai buvo pasirinktas duomenų šaltinio tipas atliekant eksperimentą.
 
 \subsection{Duomenų rinkinys}
 Šiame poskyryje aprašyti eksperimentui pritaikyti „Backblaze“ standžiųjų diskų stebėjimo duomenys \cite{backblaze}.
 
 \subsubsection{Eksperimentui pritaikyti duomenys}
-Eksperimentui bus naudojami „Backblaze“ duomenų centruose esančių standžiųjų diskų atliekamo darbo stebėjimų duomenys. „Backblaze“ nuo 2013 metų kiekvieną ketvirtį paviešina surinktus duomenis stebint jų duomenų centruose esančius kietuosius diskus. Kiekvieno ketvirčio duomenys yra pateikiami CSV failais - vienas CSV failas vienai dienai. Vidutinis vienos dienos įrašų eilučių skaičius faile - 100 tūkst; dydis - 28MB. Eksperimentui buvo pasirinktas, paskutinis paviešintas, 2018 metų pirmo ketvirčio duomenų rinkinys \cite{backblaze} - 90 CSV failų.
+Eksperimentui bus naudojami „Backblaze“ duomenų centruose esančių standžiųjų diskų atliekamo darbo stebėjimų duomenys. „Backblaze“ nuo 2013 metų kiekvieną ketvirtį paviešina surinktus duomenis stebint jų duomenų centruose esančius standžiuosius diskus. Kiekvieno ketvirčio duomenys yra pateikiami CSV failais - vienas CSV failas vienai dienai. Vidutinis vienos dienos įrašų eilučių skaičius faile - 100 tūkst; dydis - 28MB. Eksperimentui buvo pasirinktas, paskutinis paviešintas, 2018 metų pirmo ketvirčio duomenų rinkinys \cite{backblaze} - 90 CSV failų.
 
 \subsubsubsection{Duomenų aprašymas}
 Kiekvienas „Backblaze“ duomenų centrų dienos įrašų CSV failas yra sudarytas iš duomenų, kurių didžiąją dalį sudaro „S.M.A.R.T.“ \cite{smart_meaning} atributai:
@@ -140,7 +140,7 @@ Kiekvienas „Backblaze“ duomenų centrų dienos įrašų CSV failas yra sudar
 \end{itemize}
 
 \subsubsubsection{Eksperimentui atrinkti naudingi SMART atributai}
-Didelė dalis „Backblaze“ duomenų rinkinio įrašų atributų nėra naudingi atliekamam eksperimentui. Todėl buvo pasirinkti keli naudingi atributai atmetant, tokius atributus kurie yra specifiniai gamintojams arba nėra suprantami, be disko konteksto. Buvo palikti trivialūs atributai nurodantys disko temperatūrą ir bendrą valandinį disko darbo laiką, bei 5 atributai, kuriuos „Backblaze“ naudoja numatyti diskų sugedimus \cite{backblaze_failure}: perskirstytų sektorių skaičių, neištaisomų klaidų skaičių, sustabdytų dėl per ilgo darbo laiko komandų skaičių, „nestabilių“ sektorių skaičių, nepataisomų sektorių skaičių. Šios reikšmės atitinka šiuos atributus:
+Didelė dalis „Backblaze“ duomenų rinkinio įrašų atributų nėra naudingi atliekamam eksperimentui. Todėl buvo pasirinkti keli naudingi atributai atmetant, tokius atributus kurie yra specifiniai gamintojams arba nėra naudinigi be disko konteksto. Buvo palikti trivialūs atributai nurodantys disko temperatūrą ir bendrą valandinį disko darbo laiką, bei 5 atributai, kuriuos „Backblaze“ naudoja numatyti diskų sugedimus \cite{backblaze_failure}: perskirstytų sektorių skaičiaus, neištaisomų klaidų skaičiaus, sustabdytų dėl per ilgo darbo laiko komandų skaičiaus, „nestabilių“ sektorių skaičiaus, nepataisomų sektorių skaičiaus. Šios reikšmės atitinka šiuos atributus:
 \begin{itemize}
 \item \textit{\textbf{Smart 5 Raw}} - perskirstytų sektorių skaičius;
 \item \textit{\textbf{Smart 9 Raw}} - bendras valandinis disko darbo laikas;
@@ -151,36 +151,36 @@ Didelė dalis „Backblaze“ duomenų rinkinio įrašų atributų nėra nauding
 \item \textit{\textbf{Smart 198 Raw}} - nepataisomų sektorių skaičius;
 \end{itemize}
 
-\subsubsubsection{Duomenų paruošimas}
-Eksperimentas atliktas naudojant individualius dienų failus, tačiau dėl didesnio duomenų kiekio faile bei bendros analizės buvo paruošti 4 papildomi CSV failai: kiekvienam mėnesiui po vieną ir viso ketvirčio bendras. Tam buvo parašytas BASH skriptas, kuriam per argumentą yra pateikiama „Backblaze“ CSV failų direktorija. Skriptas pavadintas „combine\_csv.sh“; skriptas grąžina failus pavadinimais: „combine\_all.csv“, „combine\_01.csv“ (sausio mėnesiui), „combine\_02.csv“ (vasario mėnesiui), „combine\_03.csv“ (kovo mėnesiui). Skriptas yra pateiktas prieduose (Priedas \ref{sec:skriptas}).
+\subsubsubsection{Duomenų paruošimas} \label{subsubsubsec:duomenų_paruošimas}
+Eksperimentas atliktas naudojant individualius dienų failus, tačiau dėl didesnio duomenų kiekio faile bei bendros analizės buvo paruošti 4 papildomi CSV failai: kiekvienam mėnesiui po vieną ir viso ketvirčio bendras. Tam buvo parašytas BASH skriptas, kuriam per argumentą yra pateikiama „Backblaze“ CSV failų direktorija. Skriptas pavadintas „combine\_csv.sh“; skriptas grąžina failus pavadinimais: „combine\_all.csv“ (su bendrais duomenimis), „combine\_01.csv“ (su sausio mėnesio duomenimis), „combine\_02.csv“ (su vasario mėnesio duomenimis), „combine\_03.csv“ (su kovo mėnesio duomenimis). Skriptas yra pateiktas prieduose (Priedas \ref{sec:skriptas}).
 \begin{itemize}
 \item Bendras CSV failas \textbf{„combine\_all.csv“}:
 \begin{itemize}
 \item Dydis: \textbf{2,5GB};
-\item Įrašų eilučių skaičius: \textbf{8 949 492};
+\item Įrašų eilučių skaičius: \textbf{$8 949 492$};
 \end{itemize}
 
 \item Sausio mėnesio CSV failas \textbf{„combine\_01.csv“}:
 \begin{itemize}
 \item Dydis: \textbf{846MB};
-\item Įrašų eilučių skaičius: \textbf{3 039 306};
+\item Įrašų eilučių skaičius: \textbf{$3 039 306$};
 \end{itemize}
 
 \item Vasario mėnesio CSV failas \textbf{„combine\_02.csv“}:
 \begin{itemize}
 \item Dydis: \textbf{782,3MB};
-\item Įrašų eilučių skaičius: \textbf{2 803 852};
+\item Įrašų eilučių skaičius: \textbf{$2 803 852$};
 \end{itemize}
 
 \item Kovo mėnesio CSV failas \textbf{„combine\_03.csv“}:
 \begin{itemize}
 \item Dydis: \textbf{868,2MB};
-\item Įrašų eilučių skaičius: \textbf{3 106 334}.
+\item Įrašų eilučių skaičius: \textbf{$3 106 334$}.
 \end{itemize}
 \end{itemize}
 
 \subsection{Eksperimentui naudotos aplinkos aprašimas}
-Eksperimentas buvo atliekamas naudojant „Ubuntu (64-bit)“ operacinę sistemą įdiegtą virtualioje mašinoje „Oracle VM VirtualBox“. „MacroBase“ įdiegtas ir paruoštas darbui naudojantis „MacroBase“ dokumentaciją.
+Eksperimentas buvo atliekamas naudojant „Ubuntu (64-bit)“ operacinę sistemą įdiegtą virtualioje mašinoje „Oracle VM VirtualBox“. „MacroBase GUI“ įdiegtas ir paruoštas darbui naudojantis „MacroBase“ dokumentaciją.
 
 \subsubsection{Virtuali mašina eksperimentui}
 „MacroBase“ pateikiami pavyzdžiai ir konfigūraciniai nurodymai yra pateikiami „Linux“ operacinėms sistemoms. Todėl eksperimentui atlikti buvo pasirinkta atviro kodo nemokama operacinė sistema „Ubuntu“. Dėl paprastumo buvo nuspręsta operacinei sistemai naudoti virtualią mašiną. Atviro kodo nemokama virtuali mašina „Oracle VM VirtualBox“ buvo pasirinkta šiai užduočiai. Galutinės eksperimentui naudotos sisteminės specifikacijos:
@@ -214,10 +214,10 @@ Sekant „MacroBase“ dokumentacijoje nurodytus žingsnius įdiegiamas „Macro
 \item Paleidžiamas „MacroBase“ serveris su grafinė sąsaja:\\\code{bin/frontend.sh}
 \item Atidarius interneto naršyklę „MacroBase GUI“ pasiekiamas adresu: \\\url{http://localhost:8080}
 \end{enumerate}
-Dirbant su CSV failas tai yra žingsniai, kurių užtenka parengti „MacroBase GUI“ darbui (Priedas \ref{sec:gui}, pav. \ref{img:gui} ir \ref{img:gui2}).
+Dirbant su CSV failas tai yra žingsniai, kurių užtenka parengti „MacroBase GUI“ darbui (Priedas \ref{sec:gui}, pav. \ref{img:gui} ir pav. \ref{img:gui2}).
 
 \subsubsubsection{„MacroBase GUI“ reikalingi papildomi paketai}
-Diegiant „MacroBase“ į naujai įdiegtą „švarią“ „Ubuntu“ operacinę sistemą, reikia įdiegti atitinkamus paketus. Visos reikalingos papildomos „Ubuntu“ terminalo komandos:
+Sėkmingam „MacroBase“ diegimo procesui naujai įdiegtoje, „švarioje“ „Ubuntu“ operacinėje sistemoje, reikalingi papildomi pagalbiniai paketai. Reikalingos papildomos „Ubuntu“ terminalo komandos:
 \begin{enumerate}
 \item Versijavimo kontrolės sistemos „Git“ \cite{git} diegimas:\\\code{sudo apt install git}
 \item Java projektų valdymo ir diegimo priemonės „Maven“ \cite{maven} diegimas:\\\code{sudo apt install maven}
@@ -228,7 +228,7 @@ Diegiant „MacroBase“ į naujai įdiegtą „švarią“ „Ubuntu“ operaci
 \subsection{Eksperimento vykdymo eiga}
 Šiame poskyryje aprašoma eksperimento vykdymo eiga naudojant „Backblaze“ pateiktus 2018 metų pirmo ketvirčio duomenų rinkinius. 
 \subsubsection{Eksperimento eiga su „Backblaze“ duomenimis}
-Su „Backblaze“ duomenų rinkiniais nagrinėjamas eksperimentas: Diskų, kurie turi didžiausia tikimybę sugesti artimoje ateityje aptikimas. „Backblaze“ naudoja SMART 5, 187, 188, 197 ir 198 (Priedas \ref{sec:smart}) atributus diskų, kurie turi tikimybę sugesti numatymui \cite{backblaze_failure}. Eksperimento metu bus analizuojama, kokie diskų modeliai yra labiausiai linkę daryti kritines klaidas ir ar šie duomenys koruliuoja su „Backblaze“ fiksuojamomis klaidomis.\par
+Su „Backblaze“ duomenų rinkiniais nagrinėjamas eksperimentas: Diskų, kurie turi didžiausia tikimybę sugesti artimoje ateityje aptikimas. „Backblaze“ naudoja SMART 5, 187, 188, 197 ir 198 (Priedas \ref{sec:smart}) atributus diskų, kurie turi didžiausią tikimybę greitai sugesti numatymui \cite{backblaze_failure}. Eksperimento metu bus analizuojama, kokie diskų modeliai yra labiausiai linkę daryti kritines klaidas ir ar šie duomenys koruliuoja su „Backblaze“ fiksuojamomis klaidomis ir keičiamais diskais.\par
 Šio eksperimento metu buvo paimtos pirmos 7 duomenų rinkinio dienos (2018-01-01 - 2018-01-07), iš „Backblaze“ įrašų sąrašo buvo pasirinktas vienas atributas - „Model“, nurodantis disko modelį, ir buvo ištirti tokie atvejai su visomis parinktomis dienomis:
 \begin{enumerate}
 \item Parinkta metrika: perskirstytų sektorių skaičiaus atributas (\textbf{smart 5 raw});
@@ -238,7 +238,7 @@ Su „Backblaze“ duomenų rinkiniais nagrinėjamas eksperimentas: Diskų, kuri
 \item Parinkta metrika: nepataisomų sektorių skaičiaus atributas (\textbf{smart 198 raw});
 \item Parinkta metrika: „Backblaze“ klaidą nurodantis skaičiaus atributas (\textbf{failure});
 \end{enumerate}
-Kiekvienas rezultatas įsirašomas į atitinkamai pavadintą (pvz.: „failure\_2018-01-01.txt“ ar „188\_2018-01-05.txt“) tekstinį failą.
+Kiekvieno rezultato duomenimis yra užpildomas atitinkamai pavadintas (pvz.: „failure\_2018-01-01.txt“ ar „188\_2018-01-05.txt“) tekstinis failas.
 
 \subsubsection{Eksperimento eiga su jungtiniais duomenimis}
 Su iš „Backblaze“ duomenų rinkinių sukurtais CSV failais buvo nagrinėjami eksperimentai:
@@ -248,7 +248,7 @@ Su iš „Backblaze“ duomenų rinkinių sukurtais CSV failais buvo nagrinėjam
 \end{enumerate}
 
 \subsubsubsection{Eksperimentas: mėnesio dienos, kai diskų temperatūros yra neįprastai aukštos}
-Apjungtiems mėnesio duomenų CSV failams buvo parinktas datos atributas. Eksperimentui parinkta metrika buvo temperatūra. Atlikti tyrimai su visais trimis mėnesių failais atskirai. Šiuo eksperimentu nagrinėjama ar buvo dienų kuriomis buvo neįprastai aukšta temperatūra.
+Apjungtiems mėnesio duomenų CSV failams buvo parinktas datos atributas. Eksperimentui parinkta metrika buvo temperatūra. Atlikti tyrimai su visais trimis mėnesių failais atskirai. Šiuo eksperimentu nagrinėjama ar buvo dienų kuriomis buvo neįprastai aukšta temperatūra ir „MacroBase“ aiškino šia temperatūra datos atributu.
 
 
 \subsubsubsection{Eksperimentas: darbas su dideliais CSV failais}
@@ -271,20 +271,22 @@ Su „Backblaze“ duomenų rinkiniais buvo atliktas eksperimentas siekiant apti
 
 \textbf{Penktam} ir paskutiniam eksperimento \textbf{tyrimui} naudojant SMART atributus buvo parinktas nepataisomų sektorių skaičiaus metrika. Iš vidutiniškai $95 143$ įrašų 301 buvo išskirtys ir $94 842$ neišskirtys (\ref{tab:time198} lentelė). Šio tyrimo metu (\ref{tab:rez198} lentelė) buvo gauti net trys ankstesnių tyrimų metu gauti modeliai: „ST4000DM000“, „WDC WD1600AAJS“ ir „ST4000DM005“, bei vienas naudas „ST4000DM001“. Iš visų su SMART atributais atliktų tyrimų, galime pastebėti, kad „ST4000DM000“ diskai sukelia daugiausiai anomalijų ir yra nemaža tikimybė jiems sugesti.
 
-Paskutinis atliktas tyrimas buvo su „Backblaze“ klaidos laukų, kuris įgyja reikšmę „1“, jei tai yra paskutinė disko veikimo diena ir jis yra pakeičiamas nauju. Šio tyrimo duomenys buvo rinkti iki šiol atliktų tyrimų informacijos patikrinimui. Taigi, iš $95 165$ įrašų - vidutiniškai 5 įrašai buvo išskirtys (\ref{tab:timeFail} lentelė). Kaip ir buvo spėta, dominuojantis anomalijų skaičiumi buvo „ST4000DM000“ disko modelis (\ref{tab:rezFail} lentelė). Kaip ir buvo matyti iš pirmų penkių tyrimų „ST4000DM000“ yra tirtosios savaitės labiausiai „Backblaze“ keičiamo modelio diskai ir didžiausią tikimybę gesti ateityje turintis modelis.
- 
-
-
-
-
+Paskutinis atliktas tyrimas buvo su „Backblaze“ klaidos lauku, kuris įgyja reikšmę „1“, jei tai yra paskutinė disko veikimo diena ir diskas yra pakeičiamas nauju. Šio tyrimo duomenys buvo rinkti iki šiol atliktų tyrimų informacijos patikrinimui. Taigi, iš $95 165$ įrašų - vidutiniškai 5 įrašai buvo išskirtys (\ref{tab:timeFail} lentelė). Kaip ir buvo spėta, dominuojantis anomalijų skaičiumi buvo „ST4000DM000“ disko modelis (\ref{tab:rezFail} lentelė). Kaip ir buvo matyti iš pirmų penkių tyrimų „ST4000DM000“ yra tirtosios savaitės labiausiai „Backblaze“ keičiamo modelio diskai ir didžiausią tikimybę gesti ateityje turintis standžiojo disko modelis.
 
 \subsubsection{Eksperimentų su jungtiniais duomenimis gauti rezultatai}
-Su jungtiniais duomenų rinkiniais buvo atlikti du eksperimentai: išskirtinai aukštos diskų temperatūros dienos, ir darbas su dideliais CSV failais.
+Su dirbtinai sukurtais jungtiniais duomenų rinkiniais buvo atlikti du eksperimentai: išskirtinai aukštos diskų temperatūros „MacroBase“ aiškinamos dienos atributu, ir darbas su dideliais CSV failais.
 
 \subsubsubsection{Dienų, kai diskų temperatūros yra išskirtinai aukštos eksperimento rezultatai}
+Pasitelkiant dirbtinai apjungtų duomenų rinkinių sukurtus mėnesių duomenų rinkinių failus (papunktis \ref{subsubsubsec:duomenų_paruošimas}) buvo atliktas tyrimas, kuriuo siekiama išsiaiškinti ar egzistuoja dienos, kai standžiųjų diskų temperatūrų anomalijas „MacroBase“ aiškina pagal datos atributą. Jei temperatūros anomalijos yra aiškinamos datos atributu, yra galimos išorinės diskų fizinės dislokacijos priežastys (pvz.: diskų saugojimo patalpų kondicionavimo sistemos sutrikimai). Eksperimento rezultatai randami prieduose (Priedas \ref{sec:mėnTemp}).\par
+
+2018 metų sausio mėnesio tyrimo metu buvo gautos $36 936$ išimtys ir $3 001 958$ neišimtys (\ref{tab:timeMėn} lentelė). Tačiau tik $15 035$ iš tų išimčių buvo aiškinamos datos atributu. Anomalijos įvyko 2018-01-01 - 2018-01-05 dienomis (\ref{tab:rezMėn} lentelė). Vidutinė tikimybė šitom dienom būti anomalijom yra 2,7281154 kartų didesnė nei vidutinei dienai. Iš gautų duomenų galima spėti, kad pirmą 2018 metų savaitę diskų efektyvumas galėjo nukristi dėl saugojimo patalpų terminių savybių.\par
+
+Kitų dviejų tirtų mėnesių (vasario ir kovo) temperatūros anomalijų skaičiai buvo panašūs į sausio mėnesio rezultatus: $32 298$ išskirtys ir $2 771 455$ neišskirtys vasario mėnesį, $39 455$ išskirtys ir $3 066 805$ neišskirtys kovo mėnesį. Tačiau „MacroBase“ nerado nei vienos anomalijos, kurią paaiškintų data. Tai reiškia, kad nors temperatūros anomalijų skaičius yra didelis, anomalijos tirto laikotarpio metu nepriklausė nuo datos ar aplinkos terminių savybių. Visos temperatūrinės anomalijos vasario ir kovo mėnesiais gali būti paaiškintos pasinaudojus kitus, bet ne datos atributus.
 
 \subsubsubsection{Darbo su dideliais CSV failais eksperimento rezultatai}
+Atliekant šį eksperimentą, buvo naudojami tie patys duomenys dideli duomenų rinkiniai. Šiuo eksperimentu buvo siekta ištestuoti: ar „MacroBase“ korektiškai užbaigti analizę duotiems duomenims pateiktoje eksperimento aplinkoje; kiek laiko užtruks paprasčiausio binarinės metrikos analizė. Eksperimento rezultatus randami prieduose (Priedas \ref{sec:big}).\par
 
+Atliekant tyrimą buvo pastėbėtas akivaizdus šuolis laiko atžvilgiu
 
 
 
@@ -396,7 +398,7 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.33]{img/gui2}
-    \caption{„MacroBase GUI“ pagrindinis langas su analizės rezultatais}
+    \caption{„MacroBase GUI“ pagrindinis langas su pavyzdinių „MacroBase“ duomenų analizės rezultatais}
     \label{img:gui2}
 \end{figure}
 
@@ -585,9 +587,10 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 \end{table}
 
 \section{Diskų gedimų numatymo eksperimento rezultatų statistikos} \label{sec:rezStats}
+
 \begin{table}[H]
 \centering
-\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 5 metriką.}
+\caption{„Backblaze“ įrašų rinkinių analizių statistikos pagal SMART 5 metriką.}
 \label{tab:time5}
 {\begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
@@ -602,7 +605,7 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 
 \begin{table}[H]
 \centering
-\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 187 metriką.}
+\caption{„Backblaze“ įrašų rinkinių analizių statistikos pagal SMART 187 metriką.}
 \label{tab:time187}
 \begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
@@ -616,7 +619,7 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 \end{table}
 
 \begin{table}[H]
-\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 188 metriką.}
+\caption{„Backblaze“ įrašų rinkinių analizių statistikos pagal SMART 188 metriką.}
 \label{tab:time188}
 {\begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
@@ -631,7 +634,7 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 
 \begin{table}[H]
 \centering
-\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 197 metriką.}
+\caption{„Backblaze“ įrašų rinkinių analizių statistikos pagal SMART 197 metriką.}
 \label{tab:time197}
 {\begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
@@ -646,7 +649,7 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 
 \begin{table}[H]
 \centering
-\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 198 metriką.}
+\caption{„Backblaze“ įrašų rinkinių analizių statistikos pagal SMART 198 metriką.}
 \label{tab:time198}
 {\begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
@@ -661,7 +664,7 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 
 \begin{table}[H]
 \centering
-\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal „Failure“ metriką.}
+\caption{„Backblaze“ įrašų rinkinių analizių statistikos pagal „Failure“ metriką.}
 \label{tab:timeFail}
 {\begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
@@ -671,6 +674,99 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 \textbf{Krovimo Laikas}       & 1643ms     & 2100ms     & 1730ms     & 2270ms     & 1702ms     & 2157ms     & 2258ms     \\ \hline
 \textbf{Vykdymo Laikas}       & 252ms      & 355ms      & 223ms      & 221ms      & 239ms      & 255ms      & 250ms      \\ \hline
 \textbf{Apibendrinimo Laikas} & 46ms       & 57ms       & 38ms       & 41ms       & 41ms       & 47ms       & 49ms       \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių analizių statistikų vidurkiai pagal tirtas metrikas (SMART metrikos žymimos tik skaičiumi).}
+\label{tab:timeAvg}
+{\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\textbf{Metrika} 		   & 5        & 187       & 188       & 197       & 198       & failure  \\ \hline
+\textbf{Vid. Išskirtys}    & 708,14   & 654,71    & 2170,43   & 334,29    & 300,86    & 4,71     \\ \hline
+\textbf{Vid. Neišskirtys}  & 94435,14 & 67363,14  & 65847,43  & 94809     & 94842,43  & 95165,29 \\ \hline
+\textbf{Vid. Krov. Laikas} & 1510ms   & 1638,71ms & 1795,57ms & 1895,29ms & 1970,14ms & 1980ms   \\ \hline
+\textbf{Vid. Vykd. Laikas} & 252,86ms & 221,57ms  & 269,86ms  & 255,29ms  & 263,86ms  & 256,43ms \\ \hline
+\textbf{Vid. Apib. Laikas} & 53,14ms  & 28,57ms   & 38,86ms   & 53,14ms   & 46ms      & 45,57ms  \\ \hline
+\end{tabular}}
+\end{table}
+
+\section{Mėnesio temperatūrų eksperimento rezultatai ir statistikos} \label{sec:mėnTemp}
+\begin{table}[H]
+\centering
+\caption{Datos, kurių aukštos diskų temperatūrų anomalijas „MacroBase“ aiškina datos atributu.}
+\label{tab:rezMėn}
+{\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Mėnesis}} & \multicolumn{1}{c|}{\textbf{Data}} & \multicolumn{1}{c|}{\textbf{Santykis}} & \multicolumn{1}{c|}{\textbf{Parama}} & \multicolumn{1}{c|}{\textbf{Įrašai}} \\ \hline
+2018-01                                & 2018-01-01                         & 2,287333                               & 0,069255                             & 2558                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}               & 2018-01-02                         & 2,248474                               & 0,06828                              & 2522                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}               & 2018-01-03                         & 2,803709                               & 0,083442                             & 3082                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}               & 2018-01-04                         & 3,158734                               & 0,092809                             & 3428                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}               & 2018-01-05                         & 3,142327                               & 0,093269                             & 3445                                 \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Kiekvieno mėnesio temperatūros anomalijų analizavimo aiškinant jas pagal datos atributą statistikos.}
+\label{tab:timeMėn}
+{\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Mėnesis}              & 2018-01 & 2018-02 & 2018-03 \\ \hline
+\textbf{Išskirtys}            & 36936   & 32298   & 39455   \\ \hline
+\textbf{Neišskirtys}         & 3001958 & 2771455 & 3066805 \\ \hline
+\textbf{Krovimo Laikas}       & 27958ms & 25393ms & 42009ms \\ \hline
+\textbf{Vykdymo Laikas}       & 9231ms  & 6447ms  & 14366ms \\ \hline
+\textbf{Apibendrinimo Laikas} & 1831ms  & 2025ms  & 2477ms  \\ \hline
+\end{tabular}}
+\end{table}
+
+\section{Didelių failų eksperimento rezultatai ir statistikos} \label{sec:big}
+
+\begin{table}[H]
+\centering
+\caption{„MacroBase“ didelių duomenų rinkinių analizavimo rezultatai.}
+\label{tab:rezBig}
+{\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Failas}} & \multicolumn{1}{c|}{\textbf{Modelis}} & \multicolumn{1}{c|}{\textbf{Santykis}} & \multicolumn{1}{c|}{\textbf{Parama}} & \multicolumn{1}{c|}{\textbf{Įrašai}} \\ \hline
+combined\_01.csv                      & ST4000DM000                           & 2,814524                               & 0,592                                & 74                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}              & Samsung SSD 850 EVO 1TB               & 137,262013                             & 0,008                                & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & TOSHIBA MQ01ABF050                    & 8,965289                               & 0,048                                & 6                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & ST4000DM005                           & 10,798378                              & 0,008                                & 1                                    \\ \hline
+combined\_02.csv                      & ST4000DM000                           & 2,016884                               & 0,508065                             & 63                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}              & HGST HUS726040ALE610                  & 52,902965                              & 0,016129                             & 2                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & WDC WD5000LPVX                        & 3,889555                               & 0,016129                             & 2                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & ST500LM012 HN                         & 5,335109                               & 0,040323                             & 5                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & Samsung SSD 850 EVO 1TB               & 3782,61752                             & 0,072581                             & 9                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & WDC WD1600AAJS                        & 18,791637                              & 0,008065                             & 1                                    \\ \hline
+combined\_03.csv                      & TOSHIBA MQ01ABF050                    & 2,977068                               & 0,022989                             & 2                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & TOSHIBA MQ01ABF050M                   & 3,434047                               & 0,011494                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & WDC WD5000LPVX                        & 6,295184                               & 0,022989                             & 2                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & WDC WD30EFRX                          & 4,461698                               & 0,011494                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & ST4000DM005                           & 15,221751                              & 0,011494                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & Hitachi HDS5C3030ALA630               & 5158,159987                            & 0,011494                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & Hitachi HDS722020ALA330               & 243,448273                             & 0,057471                             & 5                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}              & ST4000DX002                           & 1385,107938                            & 0,045977                             & 4                                    \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„MacroBase“ didelių duomenų rinkinių analizavimo statistikos.}
+\label{my-label}
+{\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Failo pavadinimas}            & combined\_01.csv & combined\_02.csv & combined\_03.csv & combined\_all.csv           \\ \hline
+\textbf{Failo dydis}                  & 846MB            & 782,3MB          & 868,2MB          & 2,5GB                       \\ \hline
+\textbf{Failo įrašų eilučių skaičius} & 3 039 306        & 2 803 852        & 3 106 334        & 8 949 492                   \\ \hline
+\textbf{Išskirtys}                    & 125              & 124              & 87               & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Neišskirtys}                  & 3039181          & 2803728          & 3106247          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Krovimo Laikas}               & 32648ms          & 30286ms          & 41892ms          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Vykdymo Laikas}               & 8896ms           & 5177ms           & 10558ms          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Apibendrinimo Laikas}         & 1789ms           & 1726ms           & 2180ms           & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
 \end{tabular}}
 \end{table}
 

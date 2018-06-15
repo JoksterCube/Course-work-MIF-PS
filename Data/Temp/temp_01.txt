@@ -4,10 +4,10 @@ Welcome to
 ( m | a | c | r | o | b | a | s | e )
  \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ 
 
-INFO  [2018-06-15 00:13:59,304] macrobase.ingest.CSVIngester: 3038894/3039306 rows successfully parsed (412 malformed rows)
-INFO  [2018-06-15 00:14:00,333] macrobase.conf.MacroBaseConf: By default: using MAD transform for dimension 1 metric.
-INFO  [2018-06-15 00:14:14,021] macrobase.analysis.pipeline.BasicBatchedPipeline: took 13689ms (221995.3247132734 tuples/sec)
-6/15/18 3:14:14 AM =============================================================
+INFO  [2018-06-15 09:46:36,266] macrobase.ingest.CSVIngester: 3038894/3039306 rows successfully parsed (412 malformed rows)
+INFO  [2018-06-15 09:46:37,176] macrobase.conf.MacroBaseConf: By default: using MAD transform for dimension 1 metric.
+INFO  [2018-06-15 09:46:48,236] macrobase.analysis.pipeline.BasicBatchedPipeline: took 11062ms (274714.69896944496 tuples/sec)
+6/15/18 12:46:48 PM ============================================================
 
 -- Counters --------------------------------------------------------------------
 macrobase.analysis.stats.MAD.zeroMADs
@@ -16,200 +16,107 @@ macrobase.analysis.stats.MAD.zeroMADs
 -- Timers ----------------------------------------------------------------------
 macrobase.analysis.stats.MAD.medianComputation
              count = 1
-         mean rate = 0.07 calls/second
+         mean rate = 0.09 calls/second
      1-minute rate = 0.18 calls/second
      5-minute rate = 0.20 calls/second
     15-minute rate = 0.20 calls/second
-               min = 292.58 milliseconds
-               max = 292.58 milliseconds
-              mean = 292.58 milliseconds
+               min = 289.67 milliseconds
+               max = 289.67 milliseconds
+              mean = 289.67 milliseconds
             stddev = 0.00 milliseconds
-            median = 292.58 milliseconds
-              75% <= 292.58 milliseconds
-              95% <= 292.58 milliseconds
-              98% <= 292.58 milliseconds
-              99% <= 292.58 milliseconds
-            99.9% <= 292.58 milliseconds
+            median = 289.67 milliseconds
+              75% <= 289.67 milliseconds
+              95% <= 289.67 milliseconds
+              98% <= 289.67 milliseconds
+              99% <= 289.67 milliseconds
+            99.9% <= 289.67 milliseconds
 macrobase.analysis.stats.MAD.residualComputation
              count = 1
-         mean rate = 0.07 calls/second
+         mean rate = 0.09 calls/second
      1-minute rate = 0.18 calls/second
      5-minute rate = 0.20 calls/second
     15-minute rate = 0.20 calls/second
-               min = 24.39 milliseconds
-               max = 24.39 milliseconds
-              mean = 24.39 milliseconds
+               min = 33.32 milliseconds
+               max = 33.32 milliseconds
+              mean = 33.32 milliseconds
             stddev = 0.00 milliseconds
-            median = 24.39 milliseconds
-              75% <= 24.39 milliseconds
-              95% <= 24.39 milliseconds
-              98% <= 24.39 milliseconds
-              99% <= 24.39 milliseconds
-            99.9% <= 24.39 milliseconds
+            median = 33.32 milliseconds
+              75% <= 33.32 milliseconds
+              95% <= 33.32 milliseconds
+              98% <= 33.32 milliseconds
+              99% <= 33.32 milliseconds
+            99.9% <= 33.32 milliseconds
 macrobase.analysis.stats.MAD.residualMedianComputation
              count = 1
-         mean rate = 0.07 calls/second
+         mean rate = 0.09 calls/second
      1-minute rate = 0.18 calls/second
      5-minute rate = 0.20 calls/second
     15-minute rate = 0.20 calls/second
-               min = 103.19 milliseconds
-               max = 103.19 milliseconds
-              mean = 103.19 milliseconds
+               min = 93.57 milliseconds
+               max = 93.57 milliseconds
+              mean = 93.57 milliseconds
             stddev = 0.00 milliseconds
-            median = 103.19 milliseconds
-              75% <= 103.19 milliseconds
-              95% <= 103.19 milliseconds
-              98% <= 103.19 milliseconds
-              99% <= 103.19 milliseconds
-            99.9% <= 103.19 milliseconds
-macrobase.analysis.summary.itemset.FPGrowth.fpMine
-             count = 1
-         mean rate = 0.39 calls/second
-     1-minute rate = 0.00 calls/second
-     5-minute rate = 0.00 calls/second
-    15-minute rate = 0.00 calls/second
-               min = 11.69 milliseconds
-               max = 11.69 milliseconds
-              mean = 11.69 milliseconds
-            stddev = 0.00 milliseconds
-            median = 11.69 milliseconds
-              75% <= 11.69 milliseconds
-              95% <= 11.69 milliseconds
-              98% <= 11.69 milliseconds
-              99% <= 11.69 milliseconds
-            99.9% <= 11.69 milliseconds
-macrobase.analysis.summary.itemset.FPGrowth.insertTransactions
-             count = 1
-         mean rate = 0.39 calls/second
-     1-minute rate = 0.00 calls/second
-     5-minute rate = 0.00 calls/second
-    15-minute rate = 0.00 calls/second
-               min = 129.06 milliseconds
-               max = 129.06 milliseconds
-              mean = 129.06 milliseconds
-            stddev = 0.00 milliseconds
-            median = 129.06 milliseconds
-              75% <= 129.06 milliseconds
-              95% <= 129.06 milliseconds
-              98% <= 129.06 milliseconds
-              99% <= 129.06 milliseconds
-            99.9% <= 129.06 milliseconds
-macrobase.analysis.summary.itemset.FPGrowth.itemCounts
-             count = 1
-         mean rate = 0.39 calls/second
-     1-minute rate = 0.00 calls/second
-     5-minute rate = 0.00 calls/second
-    15-minute rate = 0.00 calls/second
-               min = 33.50 milliseconds
-               max = 33.50 milliseconds
-              mean = 33.50 milliseconds
-            stddev = 0.00 milliseconds
-            median = 33.50 milliseconds
-              75% <= 33.50 milliseconds
-              95% <= 33.50 milliseconds
-              98% <= 33.50 milliseconds
-              99% <= 33.50 milliseconds
-            99.9% <= 33.50 milliseconds
+            median = 93.57 milliseconds
+              75% <= 93.57 milliseconds
+              95% <= 93.57 milliseconds
+              98% <= 93.57 milliseconds
+              99% <= 93.57 milliseconds
+            99.9% <= 93.57 milliseconds
 macrobase.analysis.summary.itemset.FPGrowthEmerging.inlierRatio
-             count = 1
-         mean rate = 0.16 calls/second
+             count = 0
+         mean rate = 0.00 calls/second
      1-minute rate = 0.00 calls/second
      5-minute rate = 0.00 calls/second
     15-minute rate = 0.00 calls/second
-               min = 2341.65 milliseconds
-               max = 2341.65 milliseconds
-              mean = 2341.65 milliseconds
+               min = 0.00 milliseconds
+               max = 0.00 milliseconds
+              mean = 0.00 milliseconds
             stddev = 0.00 milliseconds
-            median = 2341.65 milliseconds
-              75% <= 2341.65 milliseconds
-              95% <= 2341.65 milliseconds
-              98% <= 2341.65 milliseconds
-              99% <= 2341.65 milliseconds
-            99.9% <= 2341.65 milliseconds
+            median = 0.00 milliseconds
+              75% <= 0.00 milliseconds
+              95% <= 0.00 milliseconds
+              98% <= 0.00 milliseconds
+              99% <= 0.00 milliseconds
+            99.9% <= 0.00 milliseconds
 macrobase.analysis.summary.itemset.FPGrowthEmerging.outlierFPGrowth
-             count = 1
-         mean rate = 0.16 calls/second
-     1-minute rate = 0.20 calls/second
-     5-minute rate = 0.20 calls/second
-    15-minute rate = 0.20 calls/second
-               min = 182.80 milliseconds
-               max = 182.80 milliseconds
-              mean = 182.80 milliseconds
+             count = 0
+         mean rate = 0.00 calls/second
+     1-minute rate = 0.00 calls/second
+     5-minute rate = 0.00 calls/second
+    15-minute rate = 0.00 calls/second
+               min = 0.00 milliseconds
+               max = 0.00 milliseconds
+              mean = 0.00 milliseconds
             stddev = 0.00 milliseconds
-            median = 182.80 milliseconds
-              75% <= 182.80 milliseconds
-              95% <= 182.80 milliseconds
-              98% <= 182.80 milliseconds
-              99% <= 182.80 milliseconds
-            99.9% <= 182.80 milliseconds
+            median = 0.00 milliseconds
+              75% <= 0.00 milliseconds
+              95% <= 0.00 milliseconds
+              98% <= 0.00 milliseconds
+              99% <= 0.00 milliseconds
+            99.9% <= 0.00 milliseconds
 macrobase.analysis.summary.itemset.FPGrowthEmerging.singleItemCounts
-             count = 1
-         mean rate = 0.16 calls/second
-     1-minute rate = 0.20 calls/second
-     5-minute rate = 0.20 calls/second
-    15-minute rate = 0.20 calls/second
-               min = 2025.82 milliseconds
-               max = 2025.82 milliseconds
-              mean = 2025.82 milliseconds
+             count = 0
+         mean rate = 0.00 calls/second
+     1-minute rate = 0.00 calls/second
+     5-minute rate = 0.00 calls/second
+    15-minute rate = 0.00 calls/second
+               min = 0.00 milliseconds
+               max = 0.00 milliseconds
+              mean = 0.00 milliseconds
             stddev = 0.00 milliseconds
-            median = 2025.82 milliseconds
-              75% <= 2025.82 milliseconds
-              95% <= 2025.82 milliseconds
-              98% <= 2025.82 milliseconds
-              99% <= 2025.82 milliseconds
-            99.9% <= 2025.82 milliseconds
+            median = 0.00 milliseconds
+              75% <= 0.00 milliseconds
+              95% <= 0.00 milliseconds
+              98% <= 0.00 milliseconds
+              99% <= 0.00 milliseconds
+            99.9% <= 0.00 milliseconds
 
 
-INFO  [2018-06-15 00:14:14,067] macrobase.runtime.command.MacroBasePipelineCommand: Result: [outliers: 36936.000000
+INFO  [2018-06-15 09:46:48,281] macrobase.runtime.command.MacroBasePipelineCommand: Result: [outliers: 36936.000000
 inliers: 3001958.000000
-load time 32254ms
-execution time: 9138ms
-summarization time: 4551ms
-
------
-
-support: 0.725336
-records: 26791.000000
-ratio: 15.400242
-
-Columns:
-	model: ST8000NM0055
-
------
-
-support: 0.233674
-records: 8631.000000
-ratio: 2.709807
-
-Columns:
-	model: ST8000DM002
-
------
-
-support: 0.093269
-records: 3445.000000
-ratio: 3.142327
-
-Columns:
-	date: 2018-01-05
-
------
-
-support: 0.092809
-records: 3428.000000
-ratio: 3.158734
-
-Columns:
-	date: 2018-01-04
-
------
-
-support: 0.083442
-records: 3082.000000
-ratio: 2.803709
-
-Columns:
-	date: 2018-01-03
+load time 27958ms
+execution time: 9231ms
+summarization time: 1831ms
 
 -----
 
@@ -231,121 +138,30 @@ Columns:
 
 -----
 
-support: 0.053606
-records: 1980.000000
-ratio: 11.858461
+support: 0.083442
+records: 3082.000000
+ratio: 2.803709
 
 Columns:
-	date: 2018-01-05
-	model: ST8000NM0055
-
------
-
-support: 0.052605
-records: 1943.000000
-ratio: 11.623277
-
-Columns:
-	date: 2018-01-04
-	model: ST8000NM0055
-
------
-
-support: 0.046459
-records: 1716.000000
-ratio: 10.190889
-
-Columns:
-	model: ST8000NM0055
 	date: 2018-01-03
 
 -----
 
-support: 0.038310
-records: 1415.000000
-ratio: 8.318676
+support: 0.092809
+records: 3428.000000
+ratio: 3.158734
 
 Columns:
-	date: 2018-01-01
-	model: ST8000NM0055
-
------
-
-support: 0.037606
-records: 1389.000000
-ratio: 11.922578
-
-Columns:
-	model: ST8000DM002
 	date: 2018-01-04
 
 -----
 
-support: 0.037524
-records: 1386.000000
-ratio: 8.139882
+support: 0.093269
+records: 3445.000000
+ratio: 3.142327
 
 Columns:
-	date: 2018-01-02
-	model: ST8000NM0055
-
------
-
-support: 0.037172
-records: 1373.000000
-ratio: 11.851499
-
-Columns:
-	model: ST8000DM002
 	date: 2018-01-05
-
------
-
-support: 0.034763
-records: 1284.000000
-ratio: 10.982634
-
-Columns:
-	model: ST8000DM002
-	date: 2018-01-03
-
------
-
-support: 0.028915
-records: 1068.000000
-ratio: 9.065321
-
-Columns:
-	model: ST8000DM002
-	date: 2018-01-01
-
------
-
-support: 0.028752
-records: 1062.000000
-ratio: 9.012367
-
-Columns:
-	model: ST8000DM002
-	date: 2018-01-02
-
------
-
-support: 0.005956
-records: 220.000000
-ratio: 3.630659
-
-Columns:
-	model: TOSHIBA MQ01ABF050M
-
------
-
-support: 0.001814
-records: 67.000000
-ratio: 5.312376
-
-Columns:
-	model: Hitachi HDS722020ALA330
 
 -----
 
