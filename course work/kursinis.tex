@@ -247,12 +247,45 @@ Su iš „Backblaze“ duomenų rinkinių sukurtais CSV failais buvo nagrinėjam
 \item Darbas su dideliais CSV failais, jų krovimo laikas.
 \end{enumerate}
 
-\subsubsubsection{Eksperimentas: neįprastai aukštos diskų temperatūros mėnesio dienos}
+\subsubsubsection{Eksperimentas: mėnesio dienos, kai diskų temperatūros yra neįprastai aukštos}
 Apjungtiems mėnesio duomenų CSV failams buvo parinktas datos atributas. Eksperimentui parinkta metrika buvo temperatūra. Atlikti tyrimai su visais trimis mėnesių failais atskirai. Šiuo eksperimentu nagrinėjama ar buvo dienų kuriomis buvo neįprastai aukšta temperatūra.
 
 
 \subsubsubsection{Eksperimentas: darbas su dideliais CSV failais}
 Apjungti mėnesių CSV failai ir bendras viso „Backblaze“ ketvirčio CSV failas yra žymaus dydžio failai (apie 800MB ir apie 2,5GB). Mėnesiniai failai susideda iš vidutiniškai 3 mln. įrašų eilučių; bendras failas susideda iš beveik 9 mln įrašų eilučių. Todėl šiuo eksperimentu tiriama ar parengta eksperimentinė aplinka yra pajėgi dirbti su tokio dydžio duomenų rinkiniais, ir kiek laiko su jais užtruks darbas. Eksperimentui parinktas disko modelis kaip atributas. Šiam eksperimentui reikalinga paprasčiausia metrika, todėl metrikai buvo pasirinktas klaidos atributas, kuris gali įgyti tik dvi skirtingas reikšmes: „0“ arba „1“.
+
+\subsection{Eksperimento rezultatų analizė}
+Šiame poskyryje aprašyta atliktų eksperimentų su „Backblaze“ 2018 metų pirmo ketvirčio duomenų rinkiniais bei apjungtais pagal mėnesius ir visų duomenų bendrai viename rinkinyje rezultatų analizė.
+
+\subsubsection{Eksperimentų su „Backblaze“ duomenimis gauti rezultatai}
+Su „Backblaze“ duomenų rinkiniais buvo atliktas eksperimentas siekiant aptikti diskus, kurie turi didžiausią tikimybę sugesti. Eksperimento metu pasirinkta tirti pirmos duomenų rinkinio savaitės duomenis (2018-01-01 - 2018-01-07). Eksperimento metu surinkti duomenys randami prieduose (Priedas \ref{sec:rez} ir Priedas \ref{sec:rezStats}).\par
+Šio eksperimento metu buvo tiriami duomenys pagal atributus, kuriuos „Backblaze“ naudoja prie veikimo pabaigos artėjančių diskų atpažinimui. „MacroBase“ buvo užduota aiškinti metrikas pagal diskų modelio numerius, tokiu būdu gaunama informacija apie didžiausią tikimybę tam tikro modelio diskams, kiekvienos metrikos atžvilgiu, būti anomalijomis.\par
+
+\textbf{Pirmas tyrimas} buvo atliktas su metrika perskirstytų sektorių skaičiumi. Naudojant šią metriką gautos vidutiniškai 708 išskirtys iš vidutiniškai $95 143$ įrašų (\ref{tab:time5} lentelė). Gautuose rezultatuose (\ref{tab:rez5} lentelė) pastebima, jog anomalijas kelia tik „ST10000NM0086“ ir „Hitachi HDS722020ALA330“ diskai. „ST10000NM0086“ modelio diskai yra vidutiniškai turi 13,136537 kartų didesnę tikimybę būti anomalija, o „Hitachi HDS722020ALA330“ diskai net 15,956676 kartų. Net 106 disko modelio „ST10000NM0086“ įrašai yra perskirstytų sektorių anomalijos.\par
+
+\textbf{Antras tyrimas} buvo atliktas naudojant neištaisomų klaidų skaičiaus metriką. Šio tyrimo metu bendras išskirčių skaičius yra mažesnis, nes ne visi diskai turi tyrimui naudotą metrikos atributą. Iš vidutiniškai $68 018$ įrašų 655 yra išskirtys (\ref{tab:time187} lentelė). Guotuose rezultatuos (\ref{tab:rez187} lentelė) matomi trys skirtingi diskų modeliai: „ST4000DM000“, „ST31500541AS“ ir „ST320LT007“. „ST4000DM000“ modelio diskai sukėlė didžiausia kiekį anomalijų, bei turi didžiausią tikimybę būti anomalija - 11,09313357 kartų. Kol kas pasikartojimų tarp pirmo ir antro tyrimo nematome.\par
+
+\textbf{Trečio tyrimo} metrika buvo sustabdymų skaičius dėl per ilgo komandos vykdymo laiko. Šito kaip ir antro tyrimo metu vidutinis įrašų skaičius yra mažesnis, nes ne visi įrašai turi tyrimui naudotą metrikos atributą. Vidutiniškai 2017 išskirčių ir $65 847$ neišskirčių (\ref{tab:time188} lentelė). Šitą anomaliją „MacroBase“ aiškino didesniu skaičiumi modelių nei praeitų tyrimų metu (\ref{tab:rez188} lentelė). Diskai „ST4000DM000“, „ST9250315AS“, „ST31500541AS“ ir „ST320LT007“ buvo labiausiai išskirtos anomalijos. Šio tyrimo metu buvo pamatytas pirmas anomalijų persidengimas: diskai „ST4000DM000“ ir „ST31500541AS“ šio ir praeito tyrimo metu.\par
+
+\textbf{Ketvirtam tyrimui} buvo parinkta „nestabilių“ (laukiančių perskirstymo) sektorių skaičiaus metrika. Šis tyrimas jau vyko su visai rinkinių įrašais - vidutiniškai $95 143$, iš kurių 334 buvo išskirtys (\ref{tab:time197} lentelė). Šiame tyrime matomas (\ref{tab:rez197} lentelė) tas pats „ST4000DM000“ modelis bei pirmame tyrime matytas „Hitachi HDS722020ALA330“ modelis, taip pat du nauji „ST4000DM005“ ir „WDC WD1600AAJS“. Šį kartą „ST4000DM000“ turi tikimybę būti anomaliją ne tokią didelę kaip pirmo tyrimo metu, bet didesnę už trečio - 5,632494857 kartų „ST4000DM000“ modelio diskai turi didesnę tikimybę būti anomalijos.
+
+\textbf{Penktam} ir paskutiniam eksperimento \textbf{tyrimui} naudojant SMART atributus buvo parinktas nepataisomų sektorių skaičiaus metrika. Iš vidutiniškai $95 143$ įrašų 301 buvo išskirtys ir $94 842$ neišskirtys (\ref{tab:time198} lentelė). Šio tyrimo metu (\ref{tab:rez198} lentelė) buvo gauti net trys ankstesnių tyrimų metu gauti modeliai: „ST4000DM000“, „WDC WD1600AAJS“ ir „ST4000DM005“, bei vienas naudas „ST4000DM001“. Iš visų su SMART atributais atliktų tyrimų, galime pastebėti, kad „ST4000DM000“ diskai sukelia daugiausiai anomalijų ir yra nemaža tikimybė jiems sugesti.
+
+Paskutinis atliktas tyrimas buvo su „Backblaze“ klaidos laukų, kuris įgyja reikšmę „1“, jei tai yra paskutinė disko veikimo diena ir jis yra pakeičiamas nauju. Šio tyrimo duomenys buvo rinkti iki šiol atliktų tyrimų informacijos patikrinimui. Taigi, iš $95 165$ įrašų - vidutiniškai 5 įrašai buvo išskirtys (\ref{tab:timeFail} lentelė). Kaip ir buvo spėta, dominuojantis anomalijų skaičiumi buvo „ST4000DM000“ disko modelis (\ref{tab:rezFail} lentelė). Kaip ir buvo matyti iš pirmų penkių tyrimų „ST4000DM000“ yra tirtosios savaitės labiausiai „Backblaze“ keičiamo modelio diskai ir didžiausią tikimybę gesti ateityje turintis modelis.
+ 
+
+
+
+
+
+\subsubsection{Eksperimentų su jungtiniais duomenimis gauti rezultatai}
+Su jungtiniais duomenų rinkiniais buvo atlikti du eksperimentai: išskirtinai aukštos diskų temperatūros dienos, ir darbas su dideliais CSV failais.
+
+\subsubsubsection{Dienų, kai diskų temperatūros yra išskirtinai aukštos eksperimento rezultatai}
+
+\subsubsubsection{Darbo su dideliais CSV failais eksperimento rezultatai}
+
+
 
 
 \sectionnonum{Rezultatai ir išvados}
@@ -277,24 +310,6 @@ rekomendacijos, akcentuojamos naujovės).
 \item \textbf{S.M.A.R.T} arba \textbf{SMART} - „Save Stebinčios Analizuojančios ir Protokoluojančios Technologijos“ angl. \textit{„Self-Monitoring, Analysis and Reporting Technology“}
 
 \end{itemize}
-
-\subsection{Eksperimento rezultatų analizė}
-Šiame poskyryje aprašyta atliktų eksperimentų su „Backblaze“ 2018 metų pirmo ketvirčio duomenų rinkiniais bei apjungtais pagal mėnesius ir visų duomenų bendrai viename rinkinyje rezultatų analizė.
-
-\subsubsection{Eksperimentų su „Backblaze“ duomenimis gauti rezultatai}
-Su „Backblaze“ duomenų rinkiniais buvo atlikti du eksperimentai: diskų, kurie turi didžiausią tikimybę sugesti aptikimas, ir labiausiai kaistančių diskų modelių išskyrimas.
-
-\subsubsubsection{Diskų turinčių didžiausią tikimybę sugesti eksperimento rezultatai}
-
-\subsubsubsection{Labiausiai kaistančių diskų modelių eksperimento rezultatai}
-
-\subsubsection{Eksperimentų su jungtiniais duomenimis gauti rezultatai}
-Su jungtiniais duomenų rinkiniais buvo atlikti du eksperimentai: išskirtinai aukštos diskų temperatūros dienos, ir darbas su dideliais CSV failais.
-
-\subsubsubsection{Išskirtinai aukštos diskų temperatūros dienos eksperimento rezultatai}
-
-\subsubsubsection{Darbo su dideliais CSV failais eksperimento rezultatai}
-
 
 \appendix
 
@@ -385,7 +400,7 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
     \label{img:gui2}
 \end{figure}
 
-\section{Diskų gedimų numatymo eksperimento rezultatai}
+\section{Diskų gedimų numatymo eksperimento rezultatai} \label{sec:rez}
 % tablesgenerator.com - converts calculators (e.g. excel) tables to LaTeX]{beamer}
 \begin{table}[H]
 \centering
@@ -569,7 +584,7 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
 \end{tabular}}
 \end{table}
 
-\section{Diskų gedimų numatymo eksperimento rezultatų statistikos}
+\section{Diskų gedimų numatymo eksperimento rezultatų statistikos} \label{sec:rezStats}
 \begin{table}[H]
 \centering
 \caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 5 metriką.}
