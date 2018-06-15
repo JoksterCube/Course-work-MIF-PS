@@ -13,6 +13,7 @@
 \usepackage{subfig}
 \usepackage{url}
 \usepackage{wrapfig}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage[backend=biber]{biblatex}
 
 % Titulinio aprašas
@@ -127,19 +128,31 @@ Eksperimentui atlikti buvo pasirinktas „MacroBase GUI“ analitinio įrankio �
 Eksperimentui bus naudojami „Backblaze“ duomenų centruose esančių standžiųjų diskų atliekamo darbo stebėjimų duomenys. „Backblaze“ nuo 2013 metų kiekvieną ketvirtį paviešina surinktus duomenis stebint jų duomenų centruose esančius kietuosius diskus. Kiekvieno ketvirčio duomenys yra pateikiami CSV failais - vienas CSV failas vienai dienai. Vidutinis vienos dienos įrašų eilučių skaičius faile - 100 tūkst; dydis - 28MB. Eksperimentui buvo pasirinktas, paskutinis paviešintas, 2018 metų pirmo ketvirčio duomenų rinkinys \cite{backblaze} - 90 CSV failų.
 
 \subsubsubsection{Duomenų aprašymas}
-Kiekvienas „Backblaze“ duomenų centrų dienos įrašų CSV failas yra sudarytas iš duomenų, kurių didžiąją dalį sudaro „S.M.A.R.T.“ \cite{smart_meaning}, „Save Stebinčios Analizuojančios ir Protokoluojančios Technologijos“ (angl. \textit{„Self-Monitoring, Analysis and Reporting Technology“} dažniausiai sutrumpintai vadinami „SMART“), laukai:
+Kiekvienas „Backblaze“ duomenų centrų dienos įrašų CSV failas yra sudarytas iš duomenų, kurių didžiąją dalį sudaro „S.M.A.R.T.“ \cite{smart_meaning} atributai:
 
 \begin{itemize}
 \item \textit{\textbf{Date}} - įrašo įrašymo data, užrašoma yyyy-mm-dd formatu (dėl grupavimo į failus pagal dienas, visi įrašai viename faile turės tą pačią datą).
 \item \textit{\textbf{Serial Number}} - gamintojo priskirtas kietojo disko serijos numeris.
 \item \textit{\textbf{Model}} - gamintojo priskirtas kietojo disko modelio numeris.
 \item \textit{\textbf{Capacity Bytes}} - disko dydis baitais.
-\item \textit{\textbf{Failure}} - įvykusios klaidos žymėjimui skirtas laukas. „0“, jei kietasis diskas dirba korektiškai; „1“, jei tai buvo paskutinė diena, kai diskas buvo naudojamas prieš sugesdamas.
-\item \textit{\textbf{SMART}} laukai - 100 stulpelių duomenų iš kurių 50 yra neapdorotų ir 50 normalizuotų duomenų stulpelių (laukų reikšmės yra aprašytos prieduose (Priedas \ref{sec:smart})).
+\item \textit{\textbf{Failure}} - įvykusios klaidos žymėjimui skirtas atributas. „0“, jei kietasis diskas dirba korektiškai; „1“, jei tai buvo paskutinė diena, kai diskas buvo naudojamas prieš sugesdamas.
+\item \textit{\textbf{SMART}} atributai - 100 stulpelių duomenų iš kurių 50 yra neapdorotų ir 50 normalizuotų duomenų stulpelių (atributų reikšmės yra aprašytos prieduose (Priedas \ref{sec:smart})).
+\end{itemize}
+
+\subsubsubsection{Eksperimentui atrinkti naudingi SMART atributai}
+Didelė dalis „Backblaze“ duomenų rinkinio įrašų atributų nėra naudingi atliekamam eksperimentui. Todėl buvo pasirinkti keli naudingi atributai atmetant, tokius atributus kurie yra specifiniai gamintojams arba nėra suprantami, be disko konteksto. Buvo palikti trivialūs atributai nurodantys disko temperatūrą ir bendrą valandinį disko darbo laiką, bei 5 atributai, kuriuos „Backblaze“ naudoja numatyti diskų sugedimus \cite{backblaze_failure}: perskirstytų sektorių skaičių, neištaisomų klaidų skaičių, sustabdytų dėl per ilgo darbo laiko komandų skaičių, „nestabilių“ sektorių skaičių, nepataisomų sektorių skaičių. Šios reikšmės atitinka šiuos atributus:
+\begin{itemize}
+\item \textit{\textbf{Smart 5 Raw}} - perskirstytų sektorių skaičius;
+\item \textit{\textbf{Smart 9 Raw}} - bendras valandinis disko darbo laikas;
+\item \textit{\textbf{Smart 187 Raw}} - neištaisomų klaidų skaičius;
+\item \textit{\textbf{Smart 188 Raw}} - sustabdytų dėl per ilgo darbo laiko komandų skaičius;
+\item \textit{\textbf{Smart 194 Raw}} - disko temperatūra laipsniais Celcijaus;
+\item \textit{\textbf{Smart 197 Raw}} - „nestabilių“ sektorių skaičius;
+\item \textit{\textbf{Smart 198 Raw}} - nepataisomų sektorių skaičius;
 \end{itemize}
 
 \subsubsubsection{Duomenų paruošimas}
-Eksperimentui atliktas naudojant individualius dienų failus, tačiau dėl didesnio duomenų kiekio faile bei bendros analizės buvo paruošti 4 papildomi CSV failai: kiekvienam mėnesiui po vieną ir viso ketvirčio bendras. Tam buvo parašytas „Bash Shell“ skriptas, kuriam per argumentą yra pateikiama „Backblaze“ CSV failų direktorija. Skriptas pavadintas „combine\_csv.sh“; skriptas grąžina failus pavadinimais: „combine\_all.csv“, „combine\_01.csv“ (sausio mėnesiui), „combine\_02.csv“ (vasario mėnesiui), „combine\_03.csv“ (kovo mėnesiui). Skriptas yra pateiktas prieduose (Priedas \ref{sec:skriptas}).
+Eksperimentas atliktas naudojant individualius dienų failus, tačiau dėl didesnio duomenų kiekio faile bei bendros analizės buvo paruošti 4 papildomi CSV failai: kiekvienam mėnesiui po vieną ir viso ketvirčio bendras. Tam buvo parašytas BASH skriptas, kuriam per argumentą yra pateikiama „Backblaze“ CSV failų direktorija. Skriptas pavadintas „combine\_csv.sh“; skriptas grąžina failus pavadinimais: „combine\_all.csv“, „combine\_01.csv“ (sausio mėnesiui), „combine\_02.csv“ (vasario mėnesiui), „combine\_03.csv“ (kovo mėnesiui). Skriptas yra pateiktas prieduose (Priedas \ref{sec:skriptas}).
 \begin{itemize}
 \item Bendras CSV failas \textbf{„combine\_all.csv“}:
 \begin{itemize}
@@ -204,7 +217,7 @@ Sekant „MacroBase“ dokumentacijoje nurodytus žingsnius įdiegiamas „Macro
 Dirbant su CSV failas tai yra žingsniai, kurių užtenka parengti „MacroBase GUI“ darbui (Priedas \ref{sec:gui}, pav. \ref{img:gui} ir \ref{img:gui2}).
 
 \subsubsubsection{„MacroBase GUI“ reikalingi papildomi paketai}
-Diegiant „MacroBase“ į naują „Ubuntu“ operacinę sistemą, reikia įdiegti atitinkamus paketus. Visos reikalingos papildomos „Ubuntu“ terminalo komandos:
+Diegiant „MacroBase“ į naujai įdiegtą „švarią“ „Ubuntu“ operacinę sistemą, reikia įdiegti atitinkamus paketus. Visos reikalingos papildomos „Ubuntu“ terminalo komandos:
 \begin{enumerate}
 \item Versijavimo kontrolės sistemos „Git“ \cite{git} diegimas:\\\code{sudo apt install git}
 \item Java projektų valdymo ir diegimo priemonės „Maven“ \cite{maven} diegimas:\\\code{sudo apt install maven}
@@ -214,7 +227,32 @@ Diegiant „MacroBase“ į naują „Ubuntu“ operacinę sistemą, reikia įdi
 
 \subsection{Eksperimento vykdymo eiga}
 Šiame poskyryje aprašoma eksperimento vykdymo eiga naudojant „Backblaze“ pateiktus 2018 metų pirmo ketvirčio duomenų rinkinius. 
-\subsubsection{Eksperimento}
+\subsubsection{Eksperimento eiga su „Backblaze“ duomenimis}
+Su „Backblaze“ duomenų rinkiniais nagrinėjamas eksperimentas: Diskų, kurie turi didžiausia tikimybę sugesti artimoje ateityje aptikimas. „Backblaze“ naudoja SMART 5, 187, 188, 197 ir 198 (Priedas \ref{sec:smart}) atributus diskų, kurie turi tikimybę sugesti numatymui \cite{backblaze_failure}. Eksperimento metu bus analizuojama, kokie diskų modeliai yra labiausiai linkę daryti kritines klaidas ir ar šie duomenys koruliuoja su „Backblaze“ fiksuojamomis klaidomis.\par
+Šio eksperimento metu buvo paimtos pirmos 7 duomenų rinkinio dienos (2018-01-01 - 2018-01-07), iš „Backblaze“ įrašų sąrašo buvo pasirinktas vienas atributas - „Model“, nurodantis disko modelį, ir buvo ištirti tokie atvejai su visomis parinktomis dienomis:
+\begin{enumerate}
+\item Parinkta metrika: perskirstytų sektorių skaičiaus atributas (\textbf{smart 5 raw});
+\item Parinkta metrika: neištaisomų klaidų skaičiaus atributas (\textbf{smart 187 raw});
+\item Parinkta metrika: sustabdytų dėl per ilgo darbo laiko komandų skaičiaus atributas (\textbf{smart 188 raw});
+\item Parinkta metrika: „nestabilių“ sektorių skaičiaus atributas (\textbf{smart 197 raw});
+\item Parinkta metrika: nepataisomų sektorių skaičiaus atributas (\textbf{smart 198 raw});
+\item Parinkta metrika: „Backblaze“ klaidą nurodantis skaičiaus atributas (\textbf{failure});
+\end{enumerate}
+Kiekvienas rezultatas įsirašomas į atitinkamai pavadintą (pvz.: „failure\_2018-01-01.txt“ ar „188\_2018-01-05.txt“) tekstinį failą.
+
+\subsubsection{Eksperimento eiga su jungtiniais duomenimis}
+Su iš „Backblaze“ duomenų rinkinių sukurtais CSV failais buvo nagrinėjami eksperimentai:
+\begin{enumerate}
+\item Mėnesio dienos kuriomis diskai kaista labiausiai.
+\item Darbas su dideliais CSV failais, jų krovimo laikas.
+\end{enumerate}
+
+\subsubsubsection{Eksperimentas: neįprastai aukštos diskų temperatūros mėnesio dienos}
+Apjungtiems mėnesio duomenų CSV failams buvo parinktas datos atributas. Eksperimentui parinkta metrika buvo temperatūra. Atlikti tyrimai su visais trimis mėnesių failais atskirai. Šiuo eksperimentu nagrinėjama ar buvo dienų kuriomis buvo neįprastai aukšta temperatūra.
+
+
+\subsubsubsection{Eksperimentas: darbas su dideliais CSV failais}
+Apjungti mėnesių CSV failai ir bendras viso „Backblaze“ ketvirčio CSV failas yra žymaus dydžio failai (apie 800MB ir apie 2,5GB). Mėnesiniai failai susideda iš vidutiniškai 3 mln. įrašų eilučių; bendras failas susideda iš beveik 9 mln įrašų eilučių. Todėl šiuo eksperimentu tiriama ar parengta eksperimentinė aplinka yra pajėgi dirbti su tokio dydžio duomenų rinkiniais, ir kiek laiko su jais užtruks darbas. Eksperimentui parinktas disko modelis kaip atributas. Šiam eksperimentui reikalinga paprasčiausia metrika, todėl metrikai buvo pasirinktas klaidos atributas, kuris gali įgyti tik dvi skirtingas reikšmes: „0“ arba „1“.
 
 
 \sectionnonum{Rezultatai ir išvados}
@@ -228,68 +266,95 @@ rekomendacijos, akcentuojamos naujovės).
 % \sectionnonum{Sąvokų apibrėžimai}
 \sectionnonum{Santrumpos}
 \begin{itemize}
+\item \textbf{CSV} - „Failo formatas, sudarytas iš Kableliais atskirtų reikšmių“ angl. \textit{Comma-Separated Values}.
+
+\item \textbf{BASH} - „Komandinių eilučių interpretatorius ir komandų kalba“.
+
+\item \textbf{JRE} - „JAVA vykdymo aplinka“ angl. \textit{Java Runtime Environment}.
+
+\item \textbf{JDK} - „JAVA vystymo rinkinys“ angl. \textit{Java Development Kit}.
+
+\item \textbf{S.M.A.R.T} arba \textbf{SMART} - „Save Stebinčios Analizuojančios ir Protokoluojančios Technologijos“ angl. \textit{„Self-Monitoring, Analysis and Reporting Technology“}
 
 \end{itemize}
-\textbf{CSV} - „Failo formatas, sudarytas iš Kableliais atskirtų reikšmių“ angl. \textit{Comma-Separated Values}.\par
+
+\subsection{Eksperimento rezultatų analizė}
+Šiame poskyryje aprašyta atliktų eksperimentų su „Backblaze“ 2018 metų pirmo ketvirčio duomenų rinkiniais bei apjungtais pagal mėnesius ir visų duomenų bendrai viename rinkinyje rezultatų analizė.
+
+\subsubsection{Eksperimentų su „Backblaze“ duomenimis gauti rezultatai}
+Su „Backblaze“ duomenų rinkiniais buvo atlikti du eksperimentai: diskų, kurie turi didžiausią tikimybę sugesti aptikimas, ir labiausiai kaistančių diskų modelių išskyrimas.
+
+\subsubsubsection{Diskų turinčių didžiausią tikimybę sugesti eksperimento rezultatai}
+
+\subsubsubsection{Labiausiai kaistančių diskų modelių eksperimento rezultatai}
+
+\subsubsection{Eksperimentų su jungtiniais duomenimis gauti rezultatai}
+Su jungtiniais duomenų rinkiniais buvo atlikti du eksperimentai: išskirtinai aukštos diskų temperatūros dienos, ir darbas su dideliais CSV failais.
+
+\subsubsubsection{Išskirtinai aukštos diskų temperatūros dienos eksperimento rezultatai}
+
+\subsubsubsection{Darbo su dideliais CSV failais eksperimento rezultatai}
+
 
 \appendix
 
-\section{„Backblaze“ duomenų S.M.A.R.T. laukų paskirtys} \label{sec:smart}
-„Backblaze“ naudoja „S.M.A.R.T.“ technologija kietųjų diskų protokolavimui. Tačiau „Backblaze“ naudoja ne visus „S.M.A.R.T.“ laukų:
+\section{„Backblaze“ duomenų SMART. atributų reikšmės} \label{sec:smart}
+„Backblaze“ naudoja „S.M.A.R.T.“ kietųjų diskų protokolavimui. Tačiau „Backblaze“ naudoja tik dalį „S.M.A.R.T.“ atributų:
 \begin{itemize}
-\item \textit{\textbf{Smart 1 raw, Smart 1 normalized}} - (nuo gamintojo priklausanti reikšmė) nuskaitymo klaidų dažnis (mažesnis geresnis).
-\item \textit{\textbf{Smart 2 raw, Smart 2 normalized}} - bendras disko pralaidumo efektyvumas (didesnis geresnis).
-\item \textit{\textbf{Smart 3 raw, Smart 3 normalized}} - vidutinis laikas reikalingas pasiekti maksimalų disko sukimosi greitį (mažesnis geresnis).
-\item \textit{\textbf{Smart 4 raw, Smart 4 normalized}} - disko sukimo pradėjimų ir sustabdymų skaičius.
-\item \textit{\textbf{Smart 5 raw, Smart 5 normalized}} - perskirstytų sektorių skaičius (mažesnis geresnis). Diskas, kurio nors vienas sektorius bent kartą yra perskirstytas, turi daug didesnę tikimybę sugesti.
-\item \textit{\textbf{Smart 7 raw, Smart 7 normalized}} - (nuo gamintojo priklausanti reikšmė) paieškos klaidų dažnis. Paieškos klaida atsiranda, kai įvyksta klaida mechaninėje pozicijos nustatymo sistemoje. Tai gali įvykti dėl įvairių priežasčių, pvz.: pažeidimo servo mechanizme, temperatūros sukelto plėtimosi, kt.
-\item \textit{\textbf{Smart 8 raw, Smart 8 normalized}} - vidutinis paieškos efektyvumas (didesnis geresnis). Krintanti reikšmė reiškia kylančias problemas mechaninėje posistemėje.
-\item \textit{\textbf{Smart 9 raw, Smart 9 normalized}} - disko bendras valandų skaičius, kai diskas yra įjungtas.
-\item \textit{\textbf{Smart 10 raw, Smart 10 normalized}} - bandymų įsukti diską skaičius (mažesnis geresnis).
-\item \textit{\textbf{Smart 11 raw, Smart 11 normalized}} - pakartotinių kalibravimų skaičius (mažesnis geresnis).
-\item \textit{\textbf{Smart 12 raw, Smart 12 normalized}} - įjungimų ir išjungimų skaičius, žymi disko pilnų įjungimų ir išjungimų skaičių
-\item \textit{\textbf{Smart 13 raw, Smart 13 normalized}} - 
-\item \textit{\textbf{Smart 15 raw, Smart 15 normalized}} - 
-\item \textit{\textbf{Smart 22 raw, Smart 22 normalized}} - 
-\item \textit{\textbf{Smart 177 raw, Smart 177 normalized}} - 
-\item \textit{\textbf{Smart 179 raw, Smart 179 normalized}} - 
-\item \textit{\textbf{Smart 181 raw, Smart 181 normalized}} - 
-\item \textit{\textbf{Smart 182 raw, Smart 182 normalized}} - 
-\item \textit{\textbf{Smart 183 raw, Smart 183 normalized}} - 
-\item \textit{\textbf{Smart 184 raw, Smart 184 normalized}} - 
-\item \textit{\textbf{Smart 187 raw, Smart 187 normalized}} - 
-\item \textit{\textbf{Smart 188 raw, Smart 188 normalized}} - 
-\item \textit{\textbf{Smart 189 raw, Smart 189 normalized}} - 
-\item \textit{\textbf{Smart 190 raw, Smart 190 normalized}} - 
-\item \textit{\textbf{Smart 191 raw, Smart 191 normalized}} - 
-\item \textit{\textbf{Smart 192 raw, Smart 192 normalized}} - 
-\item \textit{\textbf{Smart 193 raw, Smart 193 normalized}} - 
-\item \textit{\textbf{Smart 194 raw, Smart 194 normalized}} - 
-\item \textit{\textbf{Smart 195 raw, Smart 195 normalized}} - 
-\item \textit{\textbf{Smart 196 raw, Smart 196 normalized}} - 
-\item \textit{\textbf{Smart 197 raw, Smart 197 normalized}} - 
-\item \textit{\textbf{Smart 198 raw, Smart 198 normalized}} - 
-\item \textit{\textbf{Smart 199 raw, Smart 199 normalized}} - 
-\item \textit{\textbf{Smart 200 raw, Smart 200 normalized}} - 
-\item \textit{\textbf{Smart 201 raw, Smart 201 normalized}} - 
-\item \textit{\textbf{Smart 222 raw, Smart 222 normalized}} - 
-\item \textit{\textbf{Smart 223 raw, Smart 223 normalized}} - 
-\item \textit{\textbf{Smart 224 raw, Smart 224 normalized}} - 
-\item \textit{\textbf{Smart 225 raw, Smart 225 normalized}} - 
-\item \textit{\textbf{Smart 226 raw, Smart 226 normalized}} - 
-\item \textit{\textbf{Smart 235 raw, Smart 235 normalized}} - 
-\item \textit{\textbf{Smart 240 raw, Smart 240 normalized}} - 
-\item \textit{\textbf{Smart 241 raw, Smart 241 normalized}} - 
-\item \textit{\textbf{Smart 242 raw, Smart 242 normalized}} - 
-\item \textit{\textbf{Smart 250 raw, Smart 250 normalized}} - 
-\item \textit{\textbf{Smart 251 raw, Smart 251 normalized}} - 
-\item \textit{\textbf{Smart 252 raw, Smart 252 normalized}} - 
-\item \textit{\textbf{Smart 254 raw, Smart 254 normalized}} - 
-\item \textit{\textbf{Smart 255 raw, Smart 255 normalized}} - 
+\item \textit{\textbf{Smart 1 raw, Smart 1 normalized}} - \textbf{Read Error Rate} - (nuo gamintojo priklausanti reikšmė) nuskaitymo klaidų dažnis (mažesnis geresnis).
+\item \textit{\textbf{Smart 2 raw, Smart 2 normalized}} - \textbf{Throughput Performance} - bendras disko pralaidumo efektyvumas (didesnis geresnis).
+\item \textit{\textbf{Smart 3 raw, Smart 3 normalized}} - \textbf{Spin-Up Time} - vidutinis laikas reikalingas pasiekti maksimalų disko sukimosi greitį (mažesnis geresnis).
+\item \textit{\textbf{Smart 4 raw, Smart 4 normalized}} - \textbf{Start/Stop Count} - disko sukimo pradėjimų ir sustabdymų skaičius.
+\item \textit{\textbf{Smart 5 raw, Smart 5 normalized}} - \textbf{Reallocated Sectors Count} - perskirstytų sektorių skaičius (mažesnis geresnis). Diskas, kurio nors vienas sektorius bent kartą yra perskirstytas, turi daug didesnę tikimybę sugesti.
+\item \textit{\textbf{Smart 7 raw, Smart 7 normalized}} - \textbf{Seek Error Rate} - (nuo gamintojo priklausanti reikšmė) paieškos klaidų dažnis. Paieškos klaida atsiranda, kai įvyksta klaida mechaninėje pozicijos nustatymo sistemoje. Tai gali įvykti dėl įvairių priežasčių, pvz.: pažeidimo servo mechanizme, temperatūros sukelto plėtimosi, kt.
+\item \textit{\textbf{Smart 8 raw, Smart 8 normalized}} - \textbf{Seek Time Performance} - vidutinis paieškos efektyvumas (didesnis geresnis). Krintanti reikšmė reiškia kylančias problemas mechaninėje posistemėje.
+\item \textit{\textbf{Smart 9 raw, Smart 9 normalized}} - \textbf{Power-On Hours} - disko bendras valandų skaičius, kai diskas yra įjungtas.
+\item \textit{\textbf{Smart 10 raw, Smart 10 normalized}} - \textbf{Spin Retry Count} - bandymų įsukti diską skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 11 raw, Smart 11 normalized}} - \textbf{Recalibration Retries or Calibration Retry Count} - pakartotinių kalibravimų skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 12 raw, Smart 12 normalized}} - \textbf{Power Cycle Count} - įjungimų ir išjungimų skaičius, žymi disko pilnų įjungimų ir išjungimų skaičių.
+\item \textit{\textbf{Smart 13 raw, Smart 13 normalized}} - \textbf{Soft Read Error Rate} - neištaisytos nuskaitymo klaidos apie kurias yra pranešta operaciniai sistemai (mažesnis geresnis)
+\item \textit{\textbf{Smart 15 raw, Smart 15 normalized}} - \textit{informacijos apie šį atributą nerasta}.
+\item \textit{\textbf{Smart 22 raw, Smart 22 normalized}} - \textbf{Current Helium Level} - (specifinis He8 diskams atributas) matuoja helio kiekį disko viduje.
+\item \textit{\textbf{Smart 177 raw, Smart 177 normalized}} - \textbf{Wear Range Delta} - delta tarp labiausiai susidėvėjusių ir mažiausiai susidėvėjusių „Flash“ blokų.
+\item \textit{\textbf{Smart 179 raw, Smart 179 normalized}} - \textbf{Used Reserved Block Count Total} - (Samsung diskų naudojamas atributas) - naudojamų rezervuotų blokų bendras skaičius.
+\item \textit{\textbf{Smart 181 raw, Smart 181 normalized}} - \textbf{Program Fail Count Total or Non-4K Aligned Access Count} - bendras „Flash“ programos operacijų klaidų skaičius nuo disko naudojimo pradžios (mažesnis geresnis).
+\item \textit{\textbf{Smart 182 raw, Smart 182 normalized}} - \textbf{Erase Fail Count} - (Samsung diskų naudojamas atributas) duomenų ištrynimų klaidų skaičius.
+\item \textit{\textbf{Smart 183 raw, Smart 183 normalized}} - \textbf{SATA Downshift Error Count or Runtime Bad Block} - (Western digital, Samsung, Seagate atributas) - arba greičio disko sukimo greičio sumažėjimų skaičius arba bendras blokų su darbo metu aptiktomis, bet neištaisytomis klaidomis, skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 184 raw, Smart 184 normalized}} - \textbf{End-to-End error / IOEDC} - duomenų lygumo (angl. \textit{parity}) klaidų skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 187 raw, Smart 187 normalized}} - \textbf{Reported Uncorrectable Errors} - skaičius klaidų, kurios negali būti ištaisytos naudojant techninę įrangą (mažesnis geresnis).
+\item \textit{\textbf{Smart 188 raw, Smart 188 normalized}} - \textbf{Command Timeout} - skaičius atšauktų operacijų dėl pasibaigusio HDD laiko (angl. \textit{timeout}) (mažesnis geresnis). Paprastai atributo reikšmė lygi „0“.
+\item \textit{\textbf{Smart 189 raw, Smart 189 normalized}} - \textbf{High Fly Writes} - rašymo galvutės rašymo per aukštai nuo disko arba ne vietoje klaidų skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 190 raw, Smart 190 normalized}} - \textbf{Temperature Difference or Airflow Temperature} - reikšmė lygi $100-temperatūra$ °C, gamintojų naudojama nustatyti minimalų slenkstį, kuris atitinka maksimalią temperatūrą.
+\item \textit{\textbf{Smart 191 raw, Smart 191 normalized}} - \textbf{G-sense Error Rate} - klaidų skaičius dėl išorinių smūgių ar vibracijos (mažesnis geresnis).
+\item \textit{\textbf{Smart 192 raw, Smart 192 normalized}} - \textbf{Power-off Retract Count, Emergency Retract Cycle Count (Fujitsu), or Unsafe Shutdown Count} - nesaugių disko išjungimų skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 193 raw, Smart 193 normalized}} - \textbf{Load Cycle Count or Load/Unload Cycle Count (Fujitsu)} - skaičius užkrovimų ciklų skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 194 raw, Smart 194 normalized}} - \textbf{Temperature or Temperature Celsius} - nurodo disko temperatūrą (mažesnė geresnė).
+\item \textit{\textbf{Smart 195 raw, Smart 195 normalized}} - \textbf{Hardware ECC Recovered} - (gamintojam specifinis atributas).
+\item \textit{\textbf{Smart 196 raw, Smart 196 normalized}} - \textbf{Reallocation Event Count} - pertvarkymo operacijų skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 197 raw, Smart 197 normalized}} - \textbf{Current Pending Sector Count} - „nestabilių“ sektorių skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 198 raw, Smart 198 normalized}} - \textbf{(Offline) Uncorrectable Sector Count} - bendras neištaisytų klaidų skaičius skaitant arba rašant sektoriuje (mažesnis geresnis).
+\item \textit{\textbf{Smart 199 raw, Smart 199 normalized}} - \textbf{UltraDMA CRC Error Count} - skaičius klaidų perduodant duomenis per laido sąsają (mažesnis geresnis).
+\item \textit{\textbf{Smart 200 raw, Smart 200 normalized}} - \textbf{Multi-Zone Error Rate} - rastų klaidų skaičius rašant sektoriuje (mažesnis geresnis).
+\item \textit{\textbf{Smart 201 raw, Smart 201 normalized}} - \textbf{Soft Read Error Rate or
+TA Counter Detected} - neištaisomų programinės įrangos skaitymo klaidų skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 222 raw, Smart 222 normalized}} - \textbf{Loaded Hours} - darbo laikas kraunant duomenis (judinant magnetinę galvutę).
+\item \textit{\textbf{Smart 223 raw, Smart 223 normalized}} - \textbf{Load/Unload Retry Count} - galvutės pozicijos pakeitimų skaičius.
+\item \textit{\textbf{Smart 224 raw, Smart 224 normalized}} - \textbf{Load Friction} - trinties sukeltų pasipriešinimų operuojant skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 225 raw, Smart 225 normalized}} - \textbf{Load/Unload Cycle Count} - bendras užkrovimų ciklų skaičius (mažesnis geresnis).
+\item \textit{\textbf{Smart 226 raw, Smart 226 normalized}} - \textbf{Load 'In'-time} - bendras magnetinės galvutės krovimo laikas.
+\item \textit{\textbf{Smart 235 raw, Smart 235 normalized}} - \textbf{Good Block Count AND System(Free) Block Count} - nurodo gerų blokų ir laisvų blokų skaičių.
+\item \textit{\textbf{Smart 240 raw, Smart 240 normalized}} - Head Flying Hours or 'Transfer Error Rate' (Fujitsu) - bendras laikas praleista keičiant galvutės poziciją.
+\item \textit{\textbf{Smart 241 raw, Smart 241 normalized}} - \textbf{Total LBAs Written} - bendras skaičius rašytų LBA.
+\item \textit{\textbf{Smart 242 raw, Smart 242 normalized}} - \textbf{Total LBAs Read} - bendras skaičius skaitytų LBA.
+\item \textit{\textbf{Smart 250 raw, Smart 250 normalized}} - \textbf{Read Error Retry Rate} - klaidų skaičius skaitant iš disko (mažesnis geresnis).
+\item \textit{\textbf{Smart 251 raw, Smart 251 normalized}} - \textbf{Minimum Spares Remaining} - nurodo likusių nepanaudotų blokų skaičių ir procentinį jų kiekį.
+\item \textit{\textbf{Smart 252 raw, Smart 252 normalized}} - \textbf{Newly Added Bad Flash Block} - bendras blogų „Flash“ blokų skaičius nuo pirmo disko palaidimo.
+\item \textit{\textbf{Smart 254 raw, Smart 254 normalized}} - \textbf{Free Fall Protection} - skaičius aptiktų „Laisvų Klaidos Įvykių“ (angl. \textit{„Free Fail Events“}.
+\item \textit{\textbf{Smart 255 raw, Smart 255 normalized}} - \textit{informacijos apie šį atributą nerasta}.
 \end{itemize}
 
-\section{„Backblaze“ CSV failų apjungimo „Bash Shell“ skriptas} \label{sec:skriptas}
-„Bash Shell“ skriptas „combine\_csv.sh“ naudotas apjungti „Backblaze“ duomenis į vieną bendrą CSV failą ir 3 atskirus mėnesinius (sausiui, vasariui, kovui) CSV failus:\par
+\section{„Backblaze“ CSV failų apjungimo BASH skriptas} \label{sec:skriptas}
+BASH skriptas „combine\_csv.sh“ naudotas apjungti „Backblaze“ duomenis į vieną bendrą CSV failą ir 3 atskirus mėnesinius (sausiui, vasariui, kovui) CSV failus:\par
 
 \noindent\code{\#!/bin/bash \\
 directory=\$1\\
@@ -319,5 +384,279 @@ for file\_name in \$(ls \$directory/2018-03-*.csv); do sed 1d \$file\_name >> co
     \caption{„MacroBase GUI“ pagrindinis langas su analizės rezultatais}
     \label{img:gui2}
 \end{figure}
+
+\section{Diskų gedimų numatymo eksperimento rezultatai}
+% tablesgenerator.com - converts calculators (e.g. excel) tables to LaTeX]{beamer}
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatai pagal SMART 5 metriką.}
+\label{tab:rez5}
+{\begin{tabular}{|c|l|l|l|l|}
+\hline
+\textbf{Data}                                   & \multicolumn{1}{c|}{\textbf{Modelis}} & \multicolumn{1}{c|}{\textbf{Santykis}} & \multicolumn{1}{c|}{\textbf{Parama}} & \multicolumn{1}{c|}{\textbf{Įrašai}} \\ \hline
+2018-01-01                                      & ST10000NM0086                         & 13,276547                              & 0,150142                             & 106                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}{\color[HTML]{333333} } & Hitachi HDS722020ALA330               & 22,368556                              & 0,015581                             & 11                                   \\ \hline
+2018-01-02                                      & ST10000NM0086                         & 13,184964                              & 0,149086                             & 106                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}                        & Hitachi HDS722020ALA330               & 22,237975                              & 0,015471                             & 11                                   \\ \hline
+2018-01-03                                      & ST10000NM0086                         & 13,415309                              & 0,15113                              & 107                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}                        & Hitachi HDS722020ALA330               & 22,358395                              & 0,015537                             & 11                                   \\ \hline
+2018-01-04                                      & ST10000NM0086                         & 13,407867                              & 0,15113                              & 107                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}                        & Hitachi HDS722020ALA330               & 22,346012                              & 0,015537                             & 11                                   \\ \hline
+2018-01-05                                      & ST10000NM0086                         & 13,414675                              & 0,14986                              & 107                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}                        & Hitachi HDS722020ALA330               & 22,385791                              & 0,015406                             & 11                                   \\ \hline
+2018-01-06                                      & ST10000NM0086                         & 11,119056                              & 0,15461                              & 109                                  \\ \hline
+2018-01-07                                      & ST10000NM0086                         & 14,137344                              & 0,15461                              & 109                                  \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatai pagal SMART 187 metriką.}
+\label{tab:rez187}
+{\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Data}} & \multicolumn{1}{c|}{\textbf{Modelis}} & \multicolumn{1}{c|}{\textbf{Santykis}} & \multicolumn{1}{c|}{\textbf{Parama}} & \multicolumn{1}{c|}{\textbf{Įrašai}} \\ \hline
+2018-01-01               & ST4000DM000  & 10,731441 & 0,907692 & 590    \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST31500541AS & 3,92616   & 0,003077 & 2      \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST320LT007   & 9,593051  & 0,001538 & 1      \\ \hline
+2018-01-02               & ST4000DM000  & 10,651343 & 0,90687  & 594    \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST31500541AS & 3,893089  & 0,003053 & 3      \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST320LT007   & 9,521604  & 0,001527 & 1      \\ \hline
+2018-01-03               & ST4000DM000  & 10,950332 & 0,90937  & 592    \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST31500541AS & 3,932132  & 0,003072 & 2      \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST320LT007   & 9,60599   & 0,001536 & 1      \\ \hline
+2018-01-04               & ST4000DM000  & 11,202331 & 0,911315 & 596    \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST31500541AS & 3,910297  & 0,003058 & 2      \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST320LT007   & 9,558811  & 0,001529 & 1      \\ \hline
+2018-01-05               & ST4000DM000  & 11,293594 & 0,909786 & 595    \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST31500541AS & 3,984939  & 0,003058 & 2      \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST320LT007   & 9,720288  & 0,001529 & 1      \\ \hline
+2018-01-06               & ST4000DM000  & 11,382906 & 0,907436 & 598    \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST31500541AS & 4,047396  & 0,003035 & 2      \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST320LT007   & 9,855501  & 0,001517 & 1      \\ \hline
+2018-01-07               & ST4000DM000  & 11,439988 & 0,907576 & 599    \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST31500541AS & 4,04827   & 0,00303  & 2      \\ \hline
+\cellcolor[HTML]{C0C0C0} & ST320LT007   & 9,857412  & 0,001515 & 1      \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatai pagal SMART 188 metriką.}
+\label{tab:rez188}
+{\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Data}} & \multicolumn{1}{c|}{\textbf{Modelis}} & \multicolumn{1}{c|}{\textbf{Santykis}} & \multicolumn{1}{c|}{\textbf{Parama}} & \multicolumn{1}{c|}{\textbf{Įrašai}} \\ \hline
+2018-01-01                          & ST4000DM000                           & 2,944763                               & 0,731426                             & 1585                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST9250315AS                           & 30,817261                              & 0,020305                             & 44                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST31500541AS                          & 6,581815                               & 0,004153                             & 9                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST320LT007                            & 27,368309                              & 0,003692                             & 8                                    \\ \hline
+2018-01-02                          & ST4000DM000                           & 2,934509                               & 0,730306                             & 1576                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST9250315AS                           & 30,961801                              & 0,019926                             & 43                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST31500541AS                          & 6,622138                               & 0,004171                             & 9                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST320LT007                            & 27,523551                              & 0,003707                             & 8                                    \\ \hline
+2018-01-03                          & ST4000DM000                           & 2,918827                               & 0,729755                             & 1577                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST9250315AS                           & 30,987409                              & 0,020361                             & 44                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST31500541AS                          & 6,620992                               & 0,004165                             & 9                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST320LT007                            & 27,519139                              & 0,003702                             & 8                                    \\ \hline
+2018-01-04                          & ST4000DM000                           & 2,94161                                & 0,731494                             & 1591                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST9250315AS                           & 30,798674                              & 0,02023                              & 44                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST31500541AS                          & 6,577933                               & 0,004138                             & 9                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST320LT007                            & 27,353363                              & 0,003678                             & 8                                    \\ \hline
+2018-01-05                          & ST4000DM000                           & 3,019693                               & 0,731282                             & 1592                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST9250315AS                           & 31,204788                              & 0,020211                             & 44                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST31500541AS                          & 6,672341                               & 0,004134                             & 9                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST320LT007                            & 27,71684                               & 0,003675                             & 8                                    \\ \hline
+2018-01-06                          & ST4000DM000                           & 3,210627                               & 0,736015                             & 1592                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST9250315AS                           & 32,021745                              & 0,020342                             & 44                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST31500541AS                          & 6,861249                               & 0,004161                             & 9                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST320LT007                            & 28,444145                              & 0,003699                             & 8                                    \\ \hline
+2018-01-07                          & ST4000DM000                           & 3,063261                               & 0,726277                             & 1592                                 \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST9250315AS                           & 31,642066                              & 0,020073                             & 44                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST31500541AS                          & 6,774701                               & 0,004106                             & 9                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST320LT007                            & 28,11094                               & 0,00365                              & 8                                    \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatai pagal SMART 197 metriką.}
+\label{tab:rez197}
+{\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Data}} & \multicolumn{1}{c|}{\textbf{Modelis}} & \multicolumn{1}{c|}{\textbf{Santykis}} & \multicolumn{1}{c|}{\textbf{Parama}} & \multicolumn{1}{c|}{\textbf{Įrašai}} \\ \hline
+2018-01-01                          & ST4000DM000                           & 5,581127                               & 0,745455                             & 246                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 2,785014                               & 0,00303                              & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & Hitachi HDS722020ALA330               & 2,416696                               & 0,00303                              & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 5,179099                               & 0,00303                              & 1                                    \\ \hline
+2018-01-02                          & ST4000DM000                           & 5,615303                               & 0,746224                             & 247                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 2,777484                               & 0,003021                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & Hitachi HDS722020ALA330               & 2,409746                               & 0,003021                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 4,826323                               & 0,003021                             & 1                                    \\ \hline
+2018-01-03                          & ST4000DM000                           & 5,718268                               & 0,75                                 & 249                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 2,689523                               & 0,003012                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & Hitachi HDS722020ALA330               & 2,400746                               & 0,003012                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 4,81239                                & 0,003012                             & 1                                    \\ \hline
+2018-01-04                          & ST4000DM000                           & 5,679619                               & 0,749245                             & 248                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 2,625275                               & 0,003021                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & Hitachi HDS722020ALA330               & 2,411657                               & 0,003021                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 4,829281                               & 0,003021                             & 1                                    \\ \hline
+2018-01-05                          & ST4000DM000                           & 5,72532                                & 0,747748                             & 249                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 2,644973                               & 0,003003                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & Hitachi HDS722020ALA330               & 2,430448                               & 0,003003                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 4,858351                               & 0,003003                             & 1                                    \\ \hline
+2018-01-06                          & ST4000DM000                           & 5,666128                               & 0,741935                             & 253                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 2,597019                               & 0,002933                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 4,787528                               & 0,002933                             & 1                                    \\ \hline
+2018-01-07                          & ST4000DM000                           & 5,441699                               & 0,733918                             & 251                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 2,589356                               & 0,002924                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 4,776212                               & 0,002924                             & 1                                    \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatai pagal SMART 198 metriką.}
+\label{tab:rez198}
+{\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Data}} & \multicolumn{1}{c|}{\textbf{Modelis}} & \multicolumn{1}{c|}{\textbf{Santykis}} & \multicolumn{1}{c|}{\textbf{Parama}} & \multicolumn{1}{c|}{\textbf{Įrašai}} \\ \hline
+2018-01-01                          & ST4000DM000                           & 9,2748                                 & 0,828283                             & 246                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 5,976668                               & 0,003367                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 3,316613                               & 0,003367                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM001                           & 2,271584                               & 0,013468                             & 4                                    \\ \hline
+2018-01-02                          & ST4000DM000                           & 9,330921                               & 0,828859                             & 247                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 5,582143                               & 0,003356                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 3,306457                               & 0,003356                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM001                           & 2,265228                               & 0,013423                             & 4                                    \\ \hline
+2018-01-03                          & ST4000DM000                           & 9,575818                               & 0,832776                             & 249                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 5,564131                               & 0,003344                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 3,207011                               & 0,003344                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM001                           & 2,257359                               & 0,013378                             & 4                                    \\ \hline
+2018-01-04                          & ST4000DM000                           & 9,708536                               & 0,835017                             & 248                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 5,610976                               & 0,003367                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 3,154697                               & 0,003367                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM001                           & 2,320308                               & 0,013468                             & 4                                    \\ \hline
+2018-01-05                          & ST4000DM000                           & 9,704559                               & 0,832776                             & 249                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 5,638116                               & 0,003344                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 3,17309                                & 0,003344                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM001                           & 2,332064                               & 0,013378                             & 4                                    \\ \hline
+2018-01-06                          & ST4000DM000                           & 9,141099                               & 0,821429                             & 253                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM001                           & 2,27726                                & 0,012987                             & 4                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 5,514558                               & 0,003247                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 3,089422                               & 0,003247                             & 1                                    \\ \hline
+2018-01-07                          & ST4000DM000                           & 8,762776                               & 0,814935                             & 251                                  \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM001                           & 2,281408                               & 0,012987                             & 4                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & WDC WD1600AAJS                        & 5,52402                                & 0,003247                             & 1                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & ST4000DM005                           & 3,095831                               & 0,003247                             & 1                                    \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatai pagal „Failure“ metriką.}
+\label{tab:rezFail}
+{\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Data}} & \multicolumn{1}{c|}{\textbf{Modelis}} & \multicolumn{1}{c|}{\textbf{Santykis}} & \multicolumn{1}{c|}{\textbf{Parama}} & \multicolumn{1}{c|}{\textbf{Įrašai}} \\ \hline
+2018-01-01                          & ST4000DM000                           & 2,48423                                & 0,666667                             & 2                                    \\ \hline
+\cellcolor[HTML]{C0C0C0}            & HGST HUH728080ALE600                  & 42,566018                              & 0,333333                             & 1                                    \\ \hline
+2018-01-03                          & ST4000DM000                           & 8,846895                               & 0,833333                             & 5                                    \\ \hline
+2018-01-04                          & ST4000DM000                           & Infinity                               & 1                                    & 4                                    \\ \hline
+2018-01-05                          & ST12000NM0007                         & 3,758622                               & 0,333333                             & 2                                    \\ \hline
+2018-01-06                          & ST4000DM000                           & 4,888753                               & 0,75                                 & 3                                    \\ \hline
+2018-01-07                          & ST4000DM000                           & Infinity                               & 1                                    & 2                                    \\ \hline
+\end{tabular}}
+\end{table}
+
+\section{Diskų gedimų numatymo eksperimento rezultatų statistikos}
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 5 metriką.}
+\label{tab:time5}
+{\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Data}                 & ...-01	   & ...-02     & ...-03     & ...-04 	  & ...-05     & ...-06     & ...-07     \\ \hline
+\textbf{Išskirtys}            & 706        & 711        & 708        & 708        & 714        & 705        & 705        \\ \hline
+\textbf{Neišskirtys}          & 93480      & 93612      & 93707      & 93656      & 94627      & 95921      & 96043      \\ \hline
+\textbf{Krovimo Laikas}       & 1186ms     & 1390ms     & 1576ms     & 1316ms     & 1890ms     & 1558ms     & 1654ms     \\ \hline
+\textbf{Vykdymo Laikas}       & 180ms      & 220ms      & 245ms      & 238ms      & 418ms      & 255ms      & 214ms      \\ \hline
+\textbf{Apibendrinimo Laikas} & 40ms       & 75ms       & 43ms       & 82ms       & 43ms       & 43ms       & 46ms       \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 187 metriką.}
+\label{tab:time187}
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Data}                 & ...-01	   & ...-02     & ...-03     & ...-04 	  & ...-05     & ...-06     & ...-07     \\ \hline
+\textbf{Išskirtys}            & 650        & 655        & 651        & 654        & 654        & 659        & 660        \\ \hline
+\textbf{Neišskirtys}          & 66406      & 66497      & 66584      & 66614      & 67563      & 68881      & 68997      \\ \hline
+\textbf{Krovimo Laikas}       & 1506ms     & 2050ms     & 1747ms     & 1412ms     & 1220ms     & 1903ms     & 1633ms     \\ \hline
+\textbf{Vykdymo Laikas}       & 196ms      & 314ms      & 200ms      & 164ms      & 160ms      & 288ms      & 229ms      \\ \hline
+\textbf{Apibendrinimo Laikas} & 30ms       & 32ms       & 28ms       & 22ms       & 24ms       & 37ms       & 27ms       \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 188 metriką.}
+\label{tab:time188}
+{\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Data}                 & ...-01	   & ...-02     & ...-03     & ...-04 	  & ...-05     & ...-06     & ...-07     \\ \hline
+\textbf{Išskirtys}            & 2167       & 2158       & 2161       & 2175       & 2177       & 2163       & 2192       \\ \hline
+\textbf{Neišskirtys}          & 64889      & 64994      & 65074      & 65093      & 66040      & 67377      & 67465      \\ \hline
+\textbf{Krovimo Laikas}       & 2071ms     & 1622ms     & 1747ms     & 1996ms     & 1936ms     & 1683ms     & 1514ms     \\ \hline
+\textbf{Vykdymo Laikas}       & 427ms      & 288ms      & 226ms      & 199ms      & 222ms      & 293ms      & 234ms      \\ \hline
+\textbf{Apibendrinimo Laikas} & 38ms       & 46ms       & 34ms       & 33ms       & 39ms       & 48ms       & 34ms       \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 197 metriką.}
+\label{tab:time197}
+{\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Data}                 & ...-01	   & ...-02     & ...-03     & ...-04 	  & ...-05     & ...-06     & ...-07     \\ \hline
+\textbf{Išskirtys}            & 330        & 331        & 332        & 331        & 333        & 341        & 342        \\ \hline
+\textbf{Neišskirtys}          & 93856      & 93992      & 94083      & 94033      & 95008      & 96285      & 96406      \\ \hline
+\textbf{Krovimo Laikas}       & 2441ms     & 1758ms     & 2111ms     & 2337ms     & 1471ms     & 1565ms     & 1584ms     \\ \hline
+\textbf{Vykdymo Laikas}       & 255ms      & 296ms      & 252ms      & 249ms      & 217ms      & 242ms      & 276ms      \\ \hline
+\textbf{Apibendrinimo Laikas} & 85ms       & 47ms       & 42ms       & 48ms       & 65ms       & 41ms       & 44ms       \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal SMART 198 metriką.}
+\label{tab:time198}
+{\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Data}                 & ...-01	   & ...-02     & ...-03     & ...-04 	  & ...-05     & ...-06     & ...-07     \\ \hline
+\textbf{Išskirtys}            & 297        & 298        & 299        & 297        & 299        & 308        & 308        \\ \hline
+\textbf{Neišskirtys}          & 93889      & 94025      & 94116      & 94067      & 95042      & 96318      & 96440      \\ \hline
+\textbf{Krovimo Laikas}       & 1572ms     & 1911ms     & 2244ms     & 3161ms     & 1597ms     & 1602ms     & 1704ms     \\ \hline
+\textbf{Vykdymo Laikas}       & 354ms      & 254ms      & 288ms      & 279ms      & 229ms      & 214ms      & 229ms      \\ \hline
+\textbf{Apibendrinimo Laikas} & 43ms       & 45ms       & 56ms       & 41ms       & 51ms       & 42ms       & 44ms       \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{„Backblaze“ įrašų rinkinių rezultatu statistikos pagal „Failure“ metriką.}
+\label{tab:timeFail}
+{\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Data}                 & ...-01	   & ...-02     & ...-03     & ...-04 	  & ...-05     & ...-06     & ...-07     \\ \hline
+\textbf{Išskirtys}            & 3          & 8          & 6          & 4          & 6          & 4          & 2          \\ \hline
+\textbf{Neišskirtys}          & 94183      & 94315      & 94409      & 94360      & 95522      & 96622      & 96746      \\ \hline
+\textbf{Krovimo Laikas}       & 1643ms     & 2100ms     & 1730ms     & 2270ms     & 1702ms     & 2157ms     & 2258ms     \\ \hline
+\textbf{Vykdymo Laikas}       & 252ms      & 355ms      & 223ms      & 221ms      & 239ms      & 255ms      & 250ms      \\ \hline
+\textbf{Apibendrinimo Laikas} & 46ms       & 57ms       & 38ms       & 41ms       & 41ms       & 47ms       & 49ms       \\ \hline
+\end{tabular}}
+\end{table}
 
 \end{document}

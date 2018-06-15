@@ -1,0 +1,141 @@
+Welcome to
+  _   _   _   _   _   _   _   _   _  
+ / \ / \ / \ / \ / \ / \ / \ / \ / \ 
+( m | a | c | r | o | b | a | s | e )
+ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ 
+
+INFO  [2018-06-14 22:11:32,432] macrobase.ingest.CSVIngester: 95341/95528 rows successfully parsed (187 malformed rows)
+INFO  [2018-06-14 22:11:32,515] macrobase.conf.MacroBaseConf: By default: using MAD transform for dimension 1 metric.
+INFO  [2018-06-14 22:11:32,976] macrobase.analysis.pipeline.BasicBatchedPipeline: took 461ms (206813.44902386118 tuples/sec)
+6/15/18 1:11:32 AM =============================================================
+
+-- Counters --------------------------------------------------------------------
+macrobase.analysis.stats.MAD.zeroMADs
+             count = 1
+
+-- Timers ----------------------------------------------------------------------
+macrobase.analysis.stats.MAD.medianComputation
+             count = 1
+         mean rate = 2.16 calls/second
+     1-minute rate = 0.00 calls/second
+     5-minute rate = 0.00 calls/second
+    15-minute rate = 0.00 calls/second
+               min = 73.45 milliseconds
+               max = 73.45 milliseconds
+              mean = 73.45 milliseconds
+            stddev = 0.00 milliseconds
+            median = 73.45 milliseconds
+              75% <= 73.45 milliseconds
+              95% <= 73.45 milliseconds
+              98% <= 73.45 milliseconds
+              99% <= 73.45 milliseconds
+            99.9% <= 73.45 milliseconds
+macrobase.analysis.stats.MAD.residualComputation
+             count = 1
+         mean rate = 2.10 calls/second
+     1-minute rate = 0.00 calls/second
+     5-minute rate = 0.00 calls/second
+    15-minute rate = 0.00 calls/second
+               min = 37.32 milliseconds
+               max = 37.32 milliseconds
+              mean = 37.32 milliseconds
+            stddev = 0.00 milliseconds
+            median = 37.32 milliseconds
+              75% <= 37.32 milliseconds
+              95% <= 37.32 milliseconds
+              98% <= 37.32 milliseconds
+              99% <= 37.32 milliseconds
+            99.9% <= 37.32 milliseconds
+macrobase.analysis.stats.MAD.residualMedianComputation
+             count = 1
+         mean rate = 2.09 calls/second
+     1-minute rate = 0.00 calls/second
+     5-minute rate = 0.00 calls/second
+    15-minute rate = 0.00 calls/second
+               min = 3.15 milliseconds
+               max = 3.15 milliseconds
+              mean = 3.15 milliseconds
+            stddev = 0.00 milliseconds
+            median = 3.15 milliseconds
+              75% <= 3.15 milliseconds
+              95% <= 3.15 milliseconds
+              98% <= 3.15 milliseconds
+              99% <= 3.15 milliseconds
+            99.9% <= 3.15 milliseconds
+macrobase.analysis.summary.itemset.FPGrowthEmerging.inlierRatio
+             count = 0
+         mean rate = 0.00 calls/second
+     1-minute rate = 0.00 calls/second
+     5-minute rate = 0.00 calls/second
+    15-minute rate = 0.00 calls/second
+               min = 0.00 milliseconds
+               max = 0.00 milliseconds
+              mean = 0.00 milliseconds
+            stddev = 0.00 milliseconds
+            median = 0.00 milliseconds
+              75% <= 0.00 milliseconds
+              95% <= 0.00 milliseconds
+              98% <= 0.00 milliseconds
+              99% <= 0.00 milliseconds
+            99.9% <= 0.00 milliseconds
+macrobase.analysis.summary.itemset.FPGrowthEmerging.outlierFPGrowth
+             count = 0
+         mean rate = 0.00 calls/second
+     1-minute rate = 0.00 calls/second
+     5-minute rate = 0.00 calls/second
+    15-minute rate = 0.00 calls/second
+               min = 0.00 milliseconds
+               max = 0.00 milliseconds
+              mean = 0.00 milliseconds
+            stddev = 0.00 milliseconds
+            median = 0.00 milliseconds
+              75% <= 0.00 milliseconds
+              95% <= 0.00 milliseconds
+              98% <= 0.00 milliseconds
+              99% <= 0.00 milliseconds
+            99.9% <= 0.00 milliseconds
+macrobase.analysis.summary.itemset.FPGrowthEmerging.singleItemCounts
+             count = 0
+         mean rate = 0.00 calls/second
+     1-minute rate = 0.00 calls/second
+     5-minute rate = 0.00 calls/second
+    15-minute rate = 0.00 calls/second
+               min = 0.00 milliseconds
+               max = 0.00 milliseconds
+              mean = 0.00 milliseconds
+            stddev = 0.00 milliseconds
+            median = 0.00 milliseconds
+              75% <= 0.00 milliseconds
+              95% <= 0.00 milliseconds
+              98% <= 0.00 milliseconds
+              99% <= 0.00 milliseconds
+            99.9% <= 0.00 milliseconds
+
+
+INFO  [2018-06-14 22:11:33,035] macrobase.runtime.command.MacroBasePipelineCommand: Result: [outliers: 714.000000
+inliers: 94627.000000
+load time 1890ms
+execution time: 418ms
+summarization time: 43ms
+
+-----
+
+support: 0.149860
+records: 107.000000
+ratio: 13.414675
+
+Columns:
+	model: ST10000NM0086
+
+-----
+
+support: 0.015406
+records: 11.000000
+ratio: 22.385791
+
+Columns:
+	model: Hitachi HDS722020ALA330
+
+-----
+
+]
