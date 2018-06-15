@@ -49,21 +49,22 @@ Dėl įvairių priežasčių renkamų, saugomų ir operuojamų duomenų kiekiai 
 
 Didžiųjų duomenų laikomos informacijos paslėpta nauda ir svarba yra visuotinai pripažįstama, tačiau ši informacija nėra lengvai išgaunama. Duomenų peržiūra ir analizė sudaro labai didelį krūvį tiek analitikui, tiek analitiniams įrankiams. Fizinė duomenų peržiūra yra paprasčiausiai neįmanoma, o nuolatos didėjantys duomenų kiekiai vis labiau atskiria dėmesio reikalaujančius duomenis ir ribotą dėmesį turintį analitiką. Net ir aukščiausios kvalifikacijos analitikai praneša panaudojantys vos iki 6\% jų surenkamų duomenų \cite{prioritizing_attention}. Todėl atsiranda iššūkis prioritizuoti žmogaus dėmesį. Nors žmogui yra neįmanoma peržiūrėti visų šių duomenų, tačiau kompiuteriai ir/ar mašinos gali. Informacinės sistemos labiau nei bet kada turi filtruoti, akcentuoti, jungti, grupuoti pateiktus duomenis, jiems suteikti kontekstą ir rodyti naudotojui tik ribotą, svarbią bei apibendrintą informaciją. Visa rodoma, bet nereikalinga informacija reikalauja ir eikvoja žmogaus dėmesį \cite{attention}.\par
 
-Standfordo universitetas kartu su Masačusetso technologijos institutu 2017 metais paskelbė kuriantys naują atviro kodo, ne tik didžiųjų, bet ir greitųjų duomenų (angl. \textit{Fast Data}) analitinį paieškos įrankį. „MacroBase“ pagrindinis uždavinys yra žmogaus dėmesio prioritizavimas. Vienas iš „MacroBase“ šio uždavinį sprendimų yra sugeneruoti didžiausio dėmesio reikalaujančią supaprastintą išvestį, kurios neįprastus duomenų vienetus „MacroBase“ padeda aiškinti pagal duomenų atributus \cite{macrobase_overview, prioritizing_attention}. „MacroBase“ yra naujas ir modernus analitinis įrankis, pateikiantis inovatoriškų sprendimų vis didėjančių ir greitėjančių duomenų srautų analizei atlikti bei galintis grąžinti tikslius rezultatus dirbdamas 2 milijonų įvykių per sekundę greičiu per užklausą per branduolį, dėl to, šiame darbe bus plačiau nagrinėjamas bei eksperimentai atliekami naudojant būtent šį įrankį.
+Standfordo universitetas kartu su Masačusetso technologijos institutu 2017 metais paskelbė kuriantys naują atviro kodo, ne tik didžiųjų, bet ir greitųjų duomenų (angl. \textit{Fast Data}) analitinį paieškos įrankį. „MacroBase“ pagrindinis uždavinys yra žmogaus dėmesio prioritizavimas. Vienas iš „MacroBase“ šio uždavinį sprendimų yra sugeneruoti didžiausio dėmesio reikalaujančią supaprastintą išvestį, kurios neįprastus duomenų vienetus „MacroBase“ padeda aiškinti pagal duomenų atributus \cite{macrobase_overview, prioritizing_attention}. „MacroBase“ yra naujas ir modernus analitinis įrankis, pateikiantis inovatoriškų sprendimų vis didėjančių ir greitėjančių duomenų srautų analizei atlikti bei galintis grąžinti tikslius rezultatus dirbdamas 2 milijonų įvykių per sekundę, per užklausą, per branduolį greičiu, dėl to, šiame darbe bus plačiau nagrinėjamas bei eksperimentai atliekami naudojant būtent šį įrankį.
 
 \subsectionnonum{Darbo tikslas ir uždaviniai}
-Šio darbo \textbf{tikslas} - palyginti iki šiol naudotas didelių duomenų analizavimo technologijas ir pasinaudoti „MacroBase“ duomenų analizavimo ir anomalijų aptikimo įrankį anomalijų aptikimui.\par
+Šio darbo \textbf{tikslas} - išsiaiškinti didelių didžiųjų duomenų keliamas problemas ir kaip tos problemos yra sprendžiamos iki šiol naudotų analitinių įrankių, ir pasinaudoti „MacroBase“ duomenų analizavimo ir anomalijų aptikimo įrankį anomalijų aptikimui.\par
 
 Darbui iškelti \textbf{uždavyniai}:\par
 
 \begin{enumerate}
-\item Paaiškinti kas yra „Didieji Duomenis“.
-\item Surasti ir palyginti dabar naudojamus anomalijų dideliuose duomenyse aptikimo įrankius.
-\item Išanalizuoti „MacroBase“.
-\item Paruošti eksperimentui reikalingą įrašų rinkinį iš „Backblaze“ kiekvieną ketvirtį skelbiamų duomenų.
+\item Aprašyti „Didžiųjų Duomenų“ keliamas problemas.
+\item Aprašyti dabar naudojamus didelių duomenų analitinius įrankius.
+\item Aprašyti „MacroBase“ analitinį įrankį ir jo sprendžiamas problemas.
+\item Paruošti eksperimentui reikalingą įrašų rinkinį.
 \item Įsidiegti ir paruošti darbui „MacroBase“ analitinį įrankį.
 \item Atlikti eksperimentus ir aptikti anomalijas paruoštuose duomenyse.
 \item Pateikti galutines eksperimento išvadas.
+\item Pateikti galutines darbo išvadas.
 \end{enumerate}
 
 \section{Didieji duomenys}
@@ -116,7 +117,31 @@ Su vis didėjančiais duomenų kiekiais ir generavimo greičiais didėja ir duom
 
 
 \section{„MacroBase“ analitinis įrankis}
+Šiame skyriuje aprašomas „MacroBase“ analitinis įrankis (poskytis \ref{subsec:macrobase_apžvalga}), kuriamas Standfordo Universiteto bendradarbiaujant kartu su Masačusetso technologijos institutu. Skyriuje rašoma kaip „MacroBase“ sprendžia žmogaus dėmesio prioritizavimo bei kitas problemas (poskytis \ref{subsec:macrobase_problemos}). Galiausiai aprašomas „MacroBase GUI“ analitinis įrankis „MacroBase“ su grafine vartotojo sąsaja pasiekiamą naudojantis interneto naršyklę \ref{subsec:macrobase_gui}).
 
+\subsection{„MacroBase“ apžvalga} \label{subsec:macrobase_apžvalga}
+„MacroBase“ yra analitinis stebėjimo variklis sukurtas žmogaus dėmesio prioritazavimui, tai pasiekiama naudojant efektyvius klasifikavimo ir aiškinamuosius statistinius operatorius bei dirbant su duomenų srautais \cite{macrobase_talk}. „MacroBase“ naudoja du pagrindinius operatorių tipus: \textbf{klasifikavimo} - pagal naudotojo nurodytas klases susižymi išnagrinėtus individualius duomenų taškus (pvz.: statistiškai „normalus“ ir statistiškai „išskirtinis“); \textbf{aiškinamieji} operatoriai grupuoja ir jungia kelis duomenų taškus.\par
+Toliau trumpai aprašoma „MacroBase“ darbo proceso struktūra:
+
+\begin{enumerate}
+\item \textbf{Duomenų gavimas} (angl. \textit{Ingestion}) - „MacroBase“ pateikiamas duomenų srautas bei dominantys duomenų stulpeliai. Kiekvienas duomenų taškas susideda iš metrikų (matavimo duomenys, pvz.: disko skaitymo laikas, temperatūra, kt.) ir atributų (siejami duomenys, pvz.: disko identifikacinis kodas, įrenginio modelis, operacinės sistemos versija). „MacroBase“ naudoja metrikas anomalijų aptikimui, o atributus jų paaiškinimui.
+
+\item \textbf{Duomenų transformavimas} (angl. \textit{Feature Transformation}) - tai nebūtinas procesas, kai „MacroBase“ įvykdo domenui specifinių duomenų transformacijas, kurios gali būti statistinės (pvz.: duomenų normalizavimas, sumažinimas), priklausančios nuo duomenų tipo (pvz.: paveikslėlio atspalvio pakeitimas), ar kt.
+
+\item \textbf{Duomenų klasifikavimas} (angl. \textit{Classification}) - klasifikaciją  „MacroBase“ atlieka kiekvienam duomenų taškui priskirdama nuo metrikos priklausomą žymę. Taip pat, šioje stadijoje pagal duomenų srauto metrikas yra treniruojami ir vertinami klasifikatoriai.
+
+\item \textbf{Duomenų aiškinimas} (angl. \textit{Explanation}) - vietoj paprasto sužymėtų duomenų taškų grąžinimo, „MacroBase“ jiems sugeneruoja paaiškinimus ir apjungia sužymėto srauto duomenų taškus. Duomenų srauto paduodami duomenys yra nuolatos apdorojami, nereikalingų skaičiavimų kiekio sumažinimui „MacroBase“ aiškinamieji operatoriai grąžina paaiškinimus tik gavus naudotojo užklausą.
+
+\item \textbf{Rezultatų pateikimas} (angl. \textit{Presentation}) - dėl galimo didelio aiškinimų kiekio, jiems yra priskiriami statistiniai reitingai. Naudotojui aiškinimai yra pateikiami jų svarbos tvarka.
+\end{enumerate}
+
+„MacroBase“ sukurta anomalijų aiškinimo pagal atributus technologija yra inovatoriškas sprendimas. Be to, „MacroBase“ yra nuolatos naujinamas ir tobulinamas, ir yra daug žadantis analitinis įrankis \cite{macrobase_overview, prioritizing_attention}.
+
+\subsection{„MacroBase“ sprendžiamos problemos} \label{subsec:macrobase_problemos}
+
+
+
+\subsection{„MacroBase GUI“} \label{subsec:macrobase_gui}
 
 \section{Duomenų analizės eksperimentas naudojant „MacroBase“ analitinį įrankį}
 Eksperimentui atlikti buvo pasirinktas „MacroBase GUI“ analitinio įrankio „MacroBase“ grafinė naudotojo sąsaja. Į „MacroBase GUI“ eksperimento metu buvo žiūrima kaip į „juodąją dėžę“.  CSV tipo failai buvo pasirinktas duomenų šaltinio tipas atliekant eksperimentą.
@@ -257,7 +282,7 @@ Apjungti mėnesių CSV failai ir bendras viso „Backblaze“ ketvirčio CSV fai
 \subsection{Eksperimento rezultatų analizė}
 Šiame poskyryje aprašyta atliktų eksperimentų su „Backblaze“ 2018 metų pirmo ketvirčio duomenų rinkiniais bei apjungtais pagal mėnesius ir visų duomenų bendrai viename rinkinyje rezultatų analizė.
 
-\subsubsection{Eksperimentų su „Backblaze“ duomenimis gauti rezultatai}
+\subsubsection{Eksperimentų su „Backblaze“ duomenimis gauti rezultatai} \label{subsubsec:backblazeExp}
 Su „Backblaze“ duomenų rinkiniais buvo atliktas eksperimentas siekiant aptikti diskus, kurie turi didžiausią tikimybę sugesti. Eksperimento metu pasirinkta tirti pirmos duomenų rinkinio savaitės duomenis (2018-01-01 - 2018-01-07). Eksperimento metu surinkti duomenys randami prieduose (Priedas \ref{sec:rez} ir Priedas \ref{sec:rezStats}).\par
 Šio eksperimento metu buvo tiriami duomenys pagal atributus, kuriuos „Backblaze“ naudoja prie veikimo pabaigos artėjančių diskų atpažinimui. „MacroBase“ buvo užduota aiškinti metrikas pagal diskų modelio numerius, tokiu būdu gaunama informacija apie didžiausią tikimybę tam tikro modelio diskams, kiekvienos metrikos atžvilgiu, būti anomalijomis.\par
 
@@ -276,18 +301,27 @@ Paskutinis atliktas tyrimas buvo su „Backblaze“ klaidos lauku, kuris įgyja 
 \subsubsection{Eksperimentų su jungtiniais duomenimis gauti rezultatai}
 Su dirbtinai sukurtais jungtiniais duomenų rinkiniais buvo atlikti du eksperimentai: išskirtinai aukštos diskų temperatūros „MacroBase“ aiškinamos dienos atributu, ir darbas su dideliais CSV failais.
 
-\subsubsubsection{Dienų, kai diskų temperatūros yra išskirtinai aukštos eksperimento rezultatai}
+\subsubsubsection{Dienų, kai diskų temperatūros yra išskirtinai aukštos eksperimento rezultatai} \label{subsubsubsec:mėn}
 Pasitelkiant dirbtinai apjungtų duomenų rinkinių sukurtus mėnesių duomenų rinkinių failus (papunktis \ref{subsubsubsec:duomenų_paruošimas}) buvo atliktas tyrimas, kuriuo siekiama išsiaiškinti ar egzistuoja dienos, kai standžiųjų diskų temperatūrų anomalijas „MacroBase“ aiškina pagal datos atributą. Jei temperatūros anomalijos yra aiškinamos datos atributu, yra galimos išorinės diskų fizinės dislokacijos priežastys (pvz.: diskų saugojimo patalpų kondicionavimo sistemos sutrikimai). Eksperimento rezultatai randami prieduose (Priedas \ref{sec:mėnTemp}).\par
 
 2018 metų sausio mėnesio tyrimo metu buvo gautos $36 936$ išimtys ir $3 001 958$ neišimtys (\ref{tab:timeMėn} lentelė). Tačiau tik $15 035$ iš tų išimčių buvo aiškinamos datos atributu. Anomalijos įvyko 2018-01-01 - 2018-01-05 dienomis (\ref{tab:rezMėn} lentelė). Vidutinė tikimybė šitom dienom būti anomalijom yra 2,7281154 kartų didesnė nei vidutinei dienai. Iš gautų duomenų galima spėti, kad pirmą 2018 metų savaitę diskų efektyvumas galėjo nukristi dėl saugojimo patalpų terminių savybių.\par
 
 Kitų dviejų tirtų mėnesių (vasario ir kovo) temperatūros anomalijų skaičiai buvo panašūs į sausio mėnesio rezultatus: $32 298$ išskirtys ir $2 771 455$ neišskirtys vasario mėnesį, $39 455$ išskirtys ir $3 066 805$ neišskirtys kovo mėnesį. Tačiau „MacroBase“ nerado nei vienos anomalijos, kurią paaiškintų data. Tai reiškia, kad nors temperatūros anomalijų skaičius yra didelis, anomalijos tirto laikotarpio metu nepriklausė nuo datos ar aplinkos terminių savybių. Visos temperatūrinės anomalijos vasario ir kovo mėnesiais gali būti paaiškintos pasinaudojus kitus, bet ne datos atributus.
 
-\subsubsubsection{Darbo su dideliais CSV failais eksperimento rezultatai}
+\subsubsubsection{Darbo su dideliais CSV failais eksperimento rezultatai} \label{subsubsubsec:dideli}
 Atliekant šį eksperimentą, buvo naudojami tie patys duomenys dideli duomenų rinkiniai. Šiuo eksperimentu buvo siekta ištestuoti: ar „MacroBase“ korektiškai užbaigti analizę duotiems duomenims pateiktoje eksperimento aplinkoje; kiek laiko užtruks paprasčiausio binarinės metrikos analizė. Eksperimento rezultatus randami prieduose (Priedas \ref{sec:big}).\par
 
-Atliekant tyrimą buvo pastėbėtas akivaizdus šuolis laiko atžvilgiu
+Atliekant eksperimento tyrimus buvo pastebėtas akivaizdus šuolis laiko atžvilgiu. Eksperimento su „Backblaze“ dienos failais (punktas \ref{subsubsec:backblazeExp}) ir viena metrika vidutinis laikas nuo analizės inicijavimo iki rezultatų pateikimo - 2 sekundės (\ref{tab:timeAvg} lentelė). Tačiau šio eksperimento metu analizės užtruko iki 1 minutės, o „MacorBase“, atliekant analizę bendram visų duomenų rinkinių failui, darbas buvo sustabdyta po 15 minučių veikimo. \par
+„MacroBase“ bendro visų duomenų rinkinio analizės korektiškai nebaigė dėl eksperimentinės aplinkos atminties trūkumo. Paduodant sudėtingesnes metrikas mėnesių duomenų rinkiniams - buvo gaunami vienodi rezultatai. Paruošta eksperimentinė aplinka nebuvo optimali darbui su 3 mln. įrašų eilučių duomenų rinkiniais, todėl tyrimas apsiribojo paprasčiausios metrikos rezultatais.
 
+\subsection{Eksperimento apibendrinimas ir išvados}
+Pirmojo eksperimentinio tyrimo metu buvo bandoma analizuojant „Backblaze“ standžiųjų diskų veikimo duomenis nuspėti, kokio modelio diskai turi didžiausią tikimybe sugesti bei būti pakeisti. Šio eksperimento tikslas buvo išnagrinėti „MacroBase GUI“ analitinio įrankio su grafine naudotojo sąsaja panaudojimo paprastumą. Iš gautų duomenų (Priedas \ref{sec:rez} ir Priedas \ref{sec:rezStats}) analizuojant duomenų rinkinius pagal metrikas SMART: 5 (\ref{tab:rez5} lentelė), 187 (\ref{tab:rez187} lentelė), 188 (\ref{tab:rez188} lentelė), 197 (\ref{tab:rez197} lentelė), 198 (\ref{tab:rez198} lentelė); buvo padarytas spėjimas, kad standieji diskai, kurių modelis yra „ST4000DM000“ turi didžiausią tikimybę sugesti. Šis sprendimas buvo padarytas remiantis faktu, kad „ST4000DM000“ modelio diskai buvo anomalijos su keturiomis metrikomis (187, 188, 197, 198) iš penkių. Spėjimo patikrinimui buvo išanalizuotas „Backblaze“ klaidos atributas (\ref{tab:rezFail} lentelė), kuris parodė jog šis spėjimas buvo pagrįstas ir teisingas, taip pat šį spėjimą patvirtino vėliau atlikto eksperimento su dideliais duomenimis (papunktis \ref{subsubsubsec:dideli}) rezultatai (Priedas \ref{sec:big}), kuriuose „ST4000DM000“ dominavo anomalijų skaičiumi sausio ir vasario mėnesiais (\ref{tab:rezBig} lentelė).\par
+
+Antrojo eksperimento metu buvo bandoma rasti koreliacijų tarp aukštos diskų temperatūros anomalijų ir dienos. Eksperimento paskirtis buvo parodyti, kad „MacroBase“ analitinis įrankis gali būti panaudojamas įvairių duomenų ir jų priklausomybių analizei, tam labai naudinga „MacroBase“ metrikų aiškinimo pagal atributus technologija. Eksperimento rezultatai (papunktis \ref{subsubsubsec:mėn}) parodė, kad 5 datos iš visų ketvirčiui priklausančių dienų buvo temperatūros anomalių priežastys (\ref{tab:rezMėn} lentelė). Vienas iš šių duomenų panaudojimo būdas galėtų būti standžiųjų diskų saugojimo patalpų  temperatūros stebėjimas bei reguliavimas. \par
+
+Paskutinis eksperimentas buvo atliktas išsiaiškinti „MacroBase“ galimybes naudojant ribotų resursų eksperimentinę aplinką (papunktis \ref{subsubsubsec:dideli}). Kaip ir buvo galima tikėtis, analizės rezultatų pateikimas užtruko ilgiau dirbant su 3 mln. įrašų eilučių nei su 100 tūkst. Įdomu pastebėti, kad 30 dienų įrašus su paprasčiausiomis metrikomis „MacroBase“ išanalizavo per 30 kartų ilgesnį laiko tarpą - analizės rezultatų pateikimo laikas pakilo nuo 2 sekundžių iki 1 minutės. Tačiau bandant atlikti analizę viso ketvirčio „Backblaze“ duomenų įrašams „MacroBase“ nesugebėjo pateikti analizės rezultatų dėl per mažo operatyviosios atminties kiekio. \par
+
+Eksperimentų rezultatai parodė, kad „MacroBase GUI“ yra analitinis įrankis, kuriuo gali naudotis ne tik aukščiausios kvalifikacijos analitikai profesionalai. „MacroBase“ metrikų aiškinimo pagal atributus technologija yra žmogaus dėmesio prioritizavimo problemą sprendžiantis bei visapusiškai analitiko darbą lengvinantis - galingas priedas analizavimo procesui. Be to, „MacroBase“ yra optimalus įrankis gebantis analizuoti didelius kiekius duomenų greitai ir efektyviai, net ribotų skaičiavimo ir atminties išteklių atveju. Tačiau norint pasiekti geresnių ir greitesnių rezultatų bei dirbti su didesniais duomenų rinkiniais reiktų „MacroBase“ naudoti galingesnėje nei eksperimentui naudotoje aplinkoje.
 
 
 \sectionnonum{Rezultatai ir išvados}
@@ -759,14 +793,14 @@ combined\_03.csv                      & TOSHIBA MQ01ABF050                    & 
 \label{my-label}
 {\begin{tabular}{|l|l|l|l|l|}
 \hline
-\textbf{Failo pavadinimas}            & combined\_01.csv & combined\_02.csv & combined\_03.csv & combined\_all.csv           \\ \hline
-\textbf{Failo dydis}                  & 846MB            & 782,3MB          & 868,2MB          & 2,5GB                       \\ \hline
-\textbf{Failo įrašų eilučių skaičius} & 3 039 306        & 2 803 852        & 3 106 334        & 8 949 492                   \\ \hline
-\textbf{Išskirtys}                    & 125              & 124              & 87               & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
-\textbf{Neišskirtys}                  & 3039181          & 2803728          & 3106247          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
-\textbf{Krovimo Laikas}               & 32648ms          & 30286ms          & 41892ms          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
-\textbf{Vykdymo Laikas}               & 8896ms           & 5177ms           & 10558ms          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
-\textbf{Apibendrinimo Laikas}         & 1789ms           & 1726ms           & 2180ms           & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Failo pavadinimas}& combined\_01.csv & combined\_02.csv & combined\_03.csv & combined\_all.csv           \\ \hline
+\textbf{Failo dydis}      & 846MB            & 782,3MB          & 868,2MB          & 2,5GB                       \\ \hline
+\textbf{Įrašų skaičius}   & 3039306          & 2803852          & 3106334          & 8949492                     \\ \hline
+\textbf{Išskirtys}        & 125              & 124              & 87               & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Neišskirtys}      & 3039181          & 2803728          & 3106247          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Krovimo Laikas}   & 32648ms          & 30286ms          & 41892ms          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Vykdymo Laikas}   & 8896ms           & 5177ms           & 10558ms          & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
+\textbf{Apib. Laikas}     & 1789ms           & 1726ms           & 2180ms           & \cellcolor[HTML]{EFEFEF}N/A \\ \hline
 \end{tabular}}
 \end{table}
 
