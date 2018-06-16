@@ -42,9 +42,12 @@
 Šis darbas yra Programų Sistemų studijų trečio kurso privalomas kursinis darbas apie anomalijų aptikimą didžiuosiuose duomenyse (angl. \textit{Big Data}) bei anomalijų aptikimą naudojant atviro kodo analitinį įrankį „MacroBase“.
 
 \subsectionnonum{Problematika}
+Pasak MIT Media Lab direktoriaus Joi Ito, duomenų užrašymas ant popieriaus lapo dar visai neseniai buvo vienintelis būdas rinkti informaciją. Žmogus sugalvotas idėjas ir mintis užrašydamas ant popieriaus lapo jas paversdavo žiniomis. Tačiau dabartinė didžiųjų duomenų situacija yra kitokia. Priešingai nei seniau, surenkamų duomenų kiekiai yra milžiniški, tačiau jie nėra žinios, tol kol jų nepradedama nagrinėti ir analizuoti. Tik pradėjus analizuoti duomenis atliekant su jais įvairias transformacijas, galima pastebėti, kad gaunama įdomi ir netgi svarbi informacija\cite{documentary}. \par
+
 Remiantis 2001 metais „Gartner“ pateiktu apibrėžimu (iki šiol laikomu pagrindiniu (angl. \textit{go-to})), didieji duomenys - tai duomenys, kurie turi didelę įvairovę (angl. \textit{variety}), yra renkami nuolat didėjančiais kiekiais (angl. \textit{volumes}) ir generuojami vis didėjančiais greičiais (angl. \textit{velocity}), šis apibrėžimas dar vadinamas tryjų „V“ \cite{three_vs}. Paprastai, didžiuosius duomenis galima apibrėžti kaip duomenų rinkinius tokius didelius, kad tradiciniai programiniai duomenų apdorojimo įrankiai nesugeba jų sugauti, tvarkyti, organizuoti, apdoroti ar su jais dirbti priimtiname laiko intervale \cite{bigdata_tolerable_time}, jie yra paprasčiausiai per dideli ir per daug sudėtingi. Tačiau šie duomenys turi milžinišką potencialą ir gali būti panaudojami sprendžiant verslo ir kitas problemos, kurių sprendimas iki šiol buvo neįmanomas.\par
 
 Generuojant ir saugant milžiniškus kiekius duomenų, natūraliai, užfiksuojami tokie duomenys, kurie išsiskiria ir yra nebūdingi duomenų rinkiniui. Duomenų vienetai kurie yra nukrypę nuo kitų duomenų rinkinyje yra vadinami anomalijomis. Anomalijų aptikimas yra procesas, kurio metu yra aptinkama ir identifikuojama anomalija arba išskirtis (angl. \textit{outlier}) duomenų rinkinyje \cite{anomaly}. Anomalijos yra retas reiškinys, tačiau jų egzistavimas gali reikšti didelį pavojų taikomajai sistemai ar jos naudotojams. Šio darbo metu bus tiriamas anomalijų aptikimas remiantis iš „Backblaze“ 2018 metų (pirmą ketvirtį) duomenų centruose esančių diskų surinkta informacija \cite{backblaze}.\par
+
 Dėl įvairių priežasčių renkamų, saugomų ir operuojamų duomenų kiekiai nuolatos didėja ir netgi gerokai lenkia žmogaus sugebėjimą juos apdoroti ar analizuoti. Didžiosios socialinių tinklų kompanijos Twitter, Facebook ir LinkedIn 2015-2016 metais pranešė kiekviena atskirai fiksuojanti iki 12 milijonų įvykių per sekundę \cite{twitter, facebook, linkedin}. Taip pat negalima pamiršti vis labiau plintančių ir didelius kiekius duomenų generuojančių automatizuotų duomenų šaltinių („Dalykų Interneto“ (angl. \textit{Internet of Things} arba \textit{IoT})). Be to, tokie palankūs veiksniai kaip kylantis automatizuotų duomenų šaltinių populiarumas, pinganti techninė įranga, išvystyti komunikaciniai tinklai bei mažėjančios duomenų saugojimo kainos paskatino dešimčių milijardų dolerių komercines investicijas šių technologijų vystimui \cite{iot_investments}. Dėl šių ir kitų veiksnių numatoma, kad kiekvienais metais bendras duomenų kiekis išaugs po 40\% \cite{iot}, o iki 2020 metų pranašaujama, kad bendras pasaulinis duomenų kiekis peržengs 40 zetabaitų ($4\times{10}^{22}$ baitų) ribą \cite{future_data_volume}.\par
 
 Didžiųjų duomenų laikomos informacijos paslėpta nauda ir svarba yra visuotinai pripažįstama, tačiau ši informacija nėra lengvai išgaunama. Duomenų peržiūra ir analizė sudaro labai didelį krūvį tiek analitikui, tiek analitiniams įrankiams. Fizinė duomenų peržiūra yra paprasčiausiai neįmanoma, o nuolatos didėjantys duomenų kiekiai vis labiau atskiria dėmesio reikalaujančius duomenis ir ribotą dėmesį turintį analitiką. Net ir aukščiausios kvalifikacijos analitikai praneša panaudojantys vos iki 6\% jų surenkamų duomenų \cite{prioritizing_attention}. Todėl atsiranda iššūkis prioritizuoti žmogaus dėmesį. Nors žmogui yra neįmanoma peržiūrėti visų šių duomenų, tačiau kompiuteriai ir/ar mašinos gali. Informacinės sistemos labiau nei bet kada turi filtruoti, akcentuoti, jungti, grupuoti pateiktus duomenis, jiems suteikti kontekstą ir rodyti naudotojui tik ribotą, svarbią bei apibendrintą informaciją. Visa rodoma, bet nereikalinga informacija reikalauja ir eikvoja žmogaus dėmesį \cite{attention}.\par
@@ -52,37 +55,33 @@ Didžiųjų duomenų laikomos informacijos paslėpta nauda ir svarba yra visuoti
 Standfordo universitetas kartu su Masačusetso technologijos institutu 2017 metais paskelbė kuriantys naują atviro kodo, ne tik didžiųjų, bet ir greitųjų duomenų (angl. \textit{Fast Data}) analitinį paieškos įrankį. „MacroBase“ pagrindinis uždavinys yra žmogaus dėmesio prioritizavimas. Vienas iš „MacroBase“ šio uždavinį sprendimų yra sugeneruoti didžiausio dėmesio reikalaujančią supaprastintą išvestį, kurios neįprastus duomenų vienetus „MacroBase“ padeda aiškinti pagal duomenų atributus \cite{macrobase_overview, prioritizing_attention}. „MacroBase“ yra naujas ir modernus analitinis įrankis, pateikiantis inovatoriškų sprendimų vis didėjančių ir greitėjančių duomenų srautų analizei atlikti bei galintis grąžinti tikslius rezultatus dirbdamas 2 milijonų įvykių per sekundę, per užklausą, per branduolį greičiu, dėl to, šiame darbe bus plačiau nagrinėjamas bei eksperimentai atliekami naudojant būtent šį įrankį.
 
 \subsectionnonum{Darbo tikslas ir uždaviniai}
-Šio darbo \textbf{tikslas} - išsiaiškinti didelių didžiųjų duomenų keliamas problemas ir kaip tos problemos yra sprendžiamos iki šiol naudotų analitinių įrankių, ir pasinaudoti „MacroBase“ duomenų analizavimo ir anomalijų aptikimo įrankį anomalijų aptikimui.\par
+Šio darbo \textbf{tikslas} - pasinaudojus „MacroBase“ duomenų analizavimo ir anomalijų aptikimo įrankiu išanalizuoti ir aptikti anomalijas pritaikytuose standžiųjų diskų veikimo proceso duomenyse.\par
 
 Darbui iškelti \textbf{uždavyniai}:\par
 
 \begin{enumerate}
 \item Aprašyti „Didžiųjų Duomenų“ keliamas problemas.
-\item Aprašyti dabar naudojamus didelių duomenų analitinius įrankius.
 \item Aprašyti „MacroBase“ analitinį įrankį ir jo sprendžiamas problemas.
 \item Paruošti eksperimentui reikalingą įrašų rinkinį.
 \item Įsidiegti ir paruošti darbui „MacroBase“ analitinį įrankį.
 \item Atlikti eksperimentus ir aptikti anomalijas paruoštuose duomenyse.
 \item Pateikti galutines eksperimento išvadas.
-\item Pateikti galutines darbo išvadas.
 \end{enumerate}
 
-\section{Didieji duomenys}
-Pasak MIT Media Lab direktoriaus Joi Ito, duomenų užrašymas ant popieriaus lapo dar visai neseniai buvo vienintelis būdas rinkti informaciją. Žmogus sugalvotas idėjas ir mintis užrašydamas ant popieriaus lapo jas paversdavo žiniomis. Tačiau dabartinė didžiųjų duomenų situacija yra kitokia. Priešingai nei seniau, surenkamų duomenų kiekiai yra milžiniški, tačiau jie nėra žinios, tol kol jų nepradedama nagrinėti ir analizuoti. Tik pradėjus analizuoti duomenis atliekant su jais įvairias transformacijas, galima pastebėti, kad gaunama įdomi ir netgi svarbi informacija\cite{documentary}. \par
-
+\section{Didieji duomenys, jų keliamos problemos} \label{sec:bigdata}
 Terminas „Didieji duomenys“ vartojamas apibūdinant procesą naudojamą, kai tradicinės duomenų rinkimo (angl. \textit{data mining}) ir tvarkymo metodikos nebegali įžvelgti ar atskleisti duomenyse esančios prasmės \cite{bigdata}. Nors pirmieji dideli duomenų įrašų rinkiniai yra datuojami jau 1960-1970 metais \cite{first_bigdata}, pats terminas buvo pradėtas naudoti tik nuo 1990 metų, o jo autoriumi yra laikomas ar bent už termino išgarsinimą yra dėkojama John Mashley \cite{john_1, john_2, john_3}. Tačiau kaip didžiųjų duomenų „dydis“ nuolatos plečiasi ir kinta, taip ir jų apibrėžimas, bei apibrėžimui naudojamų „V“ kiekis (\ref{subsec:požymiai} poskyris).\par
 
 Didieji duomenys apima visų trijų struktūrizacijos lygių duomenis: struktūrizuotus, iš dalies struktūrizuotus ir nestruktūrizuotus, tačiau dižiausias didžiųjų duomenų dėmesys yra skiriamas nestruktūrizuotiems duomenims \cite{bigdata_data_struct}. Šie skirtingo struktūrizacijos lygio duomenys pasižymi tokiomis savybėmis:
 
 \begin{itemize}
-\item \textbf{Struktūrizuoti duomenys} - tai duomenys, laikomi jiems skirtuose fiksuotuose laukuose, failuose ar įrašuose. Struktūrizuoti duomenys priklauso nuo jiems priskirto duomenų modelio, kuris nurodo kokie, kokio tipo (skaitiniai duomenys, valiutos, alfabetiniai duomenys, vardai, datos, adresai) ir kokių apribojimų (simbolių skaičius, terminų apribojimas, pvz.: Ponas, Ponia, Prof., Doc. ir kt) laukai bus saugomi. Šio tipo duomenys yra lengvai operuojami, pridedami ir analizuojami. Dėl didelių duomenų saugojimo kaštų tai  ilga laiką buvo vienintelis sprendimas duomenų saugojimui - viskas, ko negalima optimaliais struktūrizuoti, laikoma popieriniame formate \cite{structured_data}.
+\item \textbf{Struktūrizuoti duomenys} - tai duomenys, laikomi jiems skirtuose fiksuotuose atributuose, failuose ar įrašuose. Struktūrizuoti duomenys priklauso nuo jiems priskirto duomenų modelio, kuris nurodo kokie, kokio tipo (skaitiniai duomenys, valiutos, alfabetiniai duomenys, vardai, datos, adresai) ir kokių apribojimų (simbolių skaičius, terminų apribojimas, pvz.: Ponas, Ponia, Prof., Doc. ir kt) atributai bus saugomi. Šio tipo duomenys yra lengvai operuojami, pridedami ir analizuojami. Dėl didelių duomenų saugojimo kaštų tai ilga laiką buvo vienintelis sprendimas duomenų saugojimui \cite{structured_data}.
 
-\item \textbf{Iš dalies struktūrizuoti duomenys} \cite{semistructured_data} - tai tarpinis variantas tarp struktūrizuotų ir nestruktūrizuotų duomenų. Duomenys neturi jiems priskirtos formalios duomenų modelio struktūros susietos su duomenų bazėmis ar kitomis duomenų lentelių formomis, tačiau turi žymes ar kitas žymėjimo priemones įrašų atskyrimui ir įrašų hierarchijos sukūrimui. Todėl iš dalies struktūrizuoti duomenys yra dar žinomi kaip save apibūdinančios (angl. \textit{self-describing}) struktūros. Iš dalies struktūrizuotuose duomenyse įrašai gali priklausyti vienai klasei ir būti grupuojami kartu, tačiau turėti skirtingus atributus, o pati atributų išdėstymo tvarka nėra svarbi. XML ir kitos žymių kalbos yra iš dalies struktūrizuotų duomenų pavyzdžiai \cite{structured_data}.
+\item \textbf{Iš dalies struktūrizuoti duomenys} \cite{semistructured_data} - tai tarpinis variantas tarp struktūrizuotų ir nestruktūrizuotų duomenų. Duomenys neturi jiems priskirtos formalios duomenų modelio struktūros susietos su duomenų bazėmis ar kitomis duomenų lentelių formomis, tačiau turi žymes ar kitas žymėjimo priemones įrašų atskyrimui ir įrašų hierarchijos sukūrimui. Todėl iš dalies struktūrizuoti duomenys yra dar žinomi kaip save apibūdinančios (angl. \textit{self-describing}) struktūros. Iš dalies struktūrizuotuose duomenyse įrašai gali priklausyti vienai klasei ir būti grupuojami kartu, tačiau turėti skirtingus atributus, o pati atributų išdėstymo tvarka nėra svarbi \cite{structured_data}. XML ir kitos žymių kalbos yra iš dalies struktūrizuotų duomenų pavyzdžiai.
 
 \item \textbf{Nestruktūrizuoti duomenys} - tai duomenys, kuriems skiriamas didžiausias didžiųjų duomenų dėmesys. Šio tipo duomenys neturi jiems priskirto duomenų modelio ar taisyklių pagal, kurias jie būtų organizuojami, ir jų neišeina klasifikuoti pagal žmogui skaitomus požymius. Tai daugiaprasmiai duomenys, kurių sudėti tvarkingai į vieną „dėžutę“ yra neįmanoma: nuotraukos, paveikslėliai, vaizdo įrašai, transliuojami instrumentiniai duomenys, PDF dokumentai, pristatymų skaidrės, elektroniniai laiškai, tinklaraščiai, teksto dokumentai, knygos, medicinos įrašai ir kt. Nors kiekvienas prieš tai išvardytas duomenų tipas atskirai yra struktūrizuotas, tačiau jų rinkinys vis tiek laikomas nestruktūrizuotais duomenimis \cite{structured_data}. Yra apskaičiuota, kad apie 80\% visų duomenų yra nestruktūrizuoti \cite{unstructured}.
 \end{itemize} 
 
-Toliau šiame skyriuje bus aprašomi didžiuosius duomenis apibūdinantys penki „V“ (\ref{subsec:požymiai} poskyris. Galiausiai bus rašoma apie didžiųjų duomenų pritaikymą (\ref{subsec:pritaikymas} poskyris).
+Toliau šiame skyriuje bus aprašomi didžiuosius duomenis apibūdinantys penki „V“ (\ref{subsec:požymiai} poskyris). Galiausiai bus rašoma apie didžiųjų duomenų pritaikymą (\ref{subsec:pritaikymas} poskyris).
 
 \subsection{Didžiųjų duomenų didieji „V“} \label{subsec:požymiai}
 Originaliai 2001 metais pateiktas didžiųjų duomenų apibrėžimas susidėjo iš trijų „V“: įvairovės (angl. \textit{variety}), kiekio (angl. \textit{volume}) ir greičio (angl. \textit{velocity}) \cite{three_vs}. Tačiau per paskutinius kelis metus šis apibrėžimas buvo papildytas dviem naujais „V“: duomenų teisingumu (angl. \textit{veracity}) ir verte (angl. \textit{value}) \cite{five_vs_everyone_must_know}. 2016 metais pateiktas atnaujintas didžiųjų duomenų apibrėžimas: didžiuosius duomenis sudaro informacijos rinkiniai charakterizuojami tokių aukštų duomenų kiekių, greičių ir įvairovės, kad yra reikalingos specifinės technologijos ir analitiniai metodai vertės iš tos informacijos išgavimui \cite{bigdata_16}. Toliau šiame poskyryje bus aprašomas kiekvienas „V“ (Kiekis (\ref{subsubsec:kiekis} punktas), greitis (\ref{subsubsec:greitis} punktas), įvarovė (\ref{subsubsec:įvairovė} punktas), teisingumas (\ref{subsubsec:teisingumas} punktas) ir vertė (\ref{subsubsec:vertė} punktas)) atskirai.
@@ -108,15 +107,12 @@ Didžiuosius duomenis pritaikymas yra galimas beveik bet kokioje srityje, kur yr
 \item Gamintojai gauna vieną didžiausių naudų. Naudojant didžiuosius duomenis gamintojai gali tobulindami savo tiekimo planus, gaminti pagal numatytą paklausą ir pasiekti beveik nulinį tiekimo laiką.
 \item Medicina didieji duomenys yra naudojami siekiant pritaikyti suasmenintą mediciną \cite{in_medicine}.
 \item Edukacinės institucijos kaip universitetai pradėjo kurti su duomenų analize susijusias studijų programas 2011 metais paskelbtai 1,5 milijonų aukštos kvalifikacijos duomenų analitikų trūkumo \cite{shortage} paklausai patenkinti.
-\item Žiniasklaida naudoja naudoja didžiųjų duomenų analizę pateikdamos suasmenintas, kryptingas reklamas.
+\item Žiniasklaida naudoja didžiųjų duomenų analizę pateikdamos suasmenintas, kryptingas reklamas.
 \item Kt.
 \end{itemize}
-Su vis didėjančiais duomenų kiekiais ir generavimo greičiais didėja ir duomenyse esančių žinių potencialas. Remiantis 2014 metų duomenimis, vienas trečdalis visų duomenų yra saugomi skaitiniu ir/ar raidiniu (angl. \textit{alphanumeric}) tekstų arba nuotraukų pavidalu \cite{one_third}, o tai formatas naudingiausias duomenų pritaikymui. Taip pat, didelis potencialas slypi didžiųjų duomenų analizėm nenaudojamuose vaizdo ir audio bei kituose duomenyse.
+Su vis didėjančiais duomenų kiekiais ir generavimo greičiais didėja ir duomenyse esančių žinių potencialas. Remiantis 2014 metų duomenimis, vienas trečdalis visų duomenų yra saugomi skaitiniu ir/ar raidiniu (angl. \textit{alphanumeric}) tekstų arba nuotraukų pavidalu \cite{one_third}, o tai formatas naudingiausias duomenų pritaikymui. Taip pat, didelis potencialas slypi didžiųjų duomenų analizėm dar nenaudojamuose vaizdo ir audio bei kituose duomenyse.
 
-\section{Didžiųjų duomenų analizavimas}
-
-
-\section{„MacroBase“ analitinis įrankis}
+\section{„MacroBase“ analitinis įrankis} \label{sec:macro}
 Šiame skyriuje aprašomas „MacroBase“ analitinis įrankis (poskytis \ref{subsec:macrobase_apžvalga}), kuriamas Standfordo Universiteto bendradarbiaujant kartu su Masačusetso technologijos institutu. Skyriuje rašoma kaip „MacroBase“ sprendžia žmogaus dėmesio prioritizavimo bei kitas problemas (poskytis \ref{subsec:macrobase_problemos}). Galiausiai aprašomas „MacroBase GUI“ analitinis įrankis „MacroBase“ su grafine vartotojo sąsaja pasiekiamą naudojantis interneto naršyklę \ref{subsec:macrobase_gui}).
 
 \subsection{„MacroBase“ apžvalga} \label{subsec:macrobase_apžvalga}
@@ -130,23 +126,67 @@ Toliau trumpai aprašoma „MacroBase“ darbo proceso struktūra:
 
 \item \textbf{Duomenų klasifikavimas} (angl. \textit{Classification}) - klasifikaciją  „MacroBase“ atlieka kiekvienam duomenų taškui priskirdama nuo metrikos priklausomą žymę. Taip pat, šioje stadijoje pagal duomenų srauto metrikas yra treniruojami ir vertinami klasifikatoriai.
 
-\item \textbf{Duomenų aiškinimas} (angl. \textit{Explanation}) - vietoj paprasto sužymėtų duomenų taškų grąžinimo, „MacroBase“ jiems sugeneruoja paaiškinimus ir apjungia sužymėto srauto duomenų taškus. Duomenų srauto paduodami duomenys yra nuolatos apdorojami, nereikalingų skaičiavimų kiekio sumažinimui „MacroBase“ aiškinamieji operatoriai grąžina paaiškinimus tik gavus naudotojo užklausą.
+\item \textbf{Duomenų aiškinimas} (angl. \textit{Explanation}) - vietoje tiesioginio sužymėtų duomenų taškų grąžinimo, „MacroBase“ jiems sugeneruoja paaiškinimus ir apjungia sužymėto srauto duomenų taškus. Duomenų srauto paduodami duomenys yra nuolatos apdorojami, todėl nereikalingų skaičiavimų kiekio sumažinimui „MacroBase“ aiškinamieji operatoriai grąžina paaiškinimus tik gavus naudotojo užklausą.
 
 \item \textbf{Rezultatų pateikimas} (angl. \textit{Presentation}) - dėl galimo didelio aiškinimų kiekio, jiems yra priskiriami statistiniai reitingai. Naudotojui aiškinimai yra pateikiami jų svarbos tvarka.
 \end{enumerate}
 
-„MacroBase“ sukurta anomalijų aiškinimo pagal atributus technologija yra inovatoriškas sprendimas. Be to, „MacroBase“ yra nuolatos naujinamas ir tobulinamas, ir yra daug žadantis analitinis įrankis \cite{macrobase_overview, prioritizing_attention}.
+„MacroBase“ sukurta anomalijų aiškinimo pagal atributus technologija yra inovatoriškas sprendimas. Be to, „MacroBase“ yra nuolatos naujinamas ir tobulinamas, ir yra daug žadantis analitinis įrankis \cite{macrobase_overview}.
 
 \subsection{„MacroBase“ sprendžiamos problemos} \label{subsec:macrobase_problemos}
+Pagrindinė „McroBase“ sprendžiama problema yra žmogaus dėmesio prioritizavimas. Kadangi žmogui fiziškai neįmanoma peržiūrėti visų duomenų tašku, tam reikia mašinos, kuri jam pateiktų tik svarbius ir neįprasta elgsena pasižyminčius duomenų taškus. Šios problemos sprendimui „MacroBase“ apsibrėžė tris pagrindinius principus \cite{prioritizing_attention}:
 
+\begin{enumerate}
+\item Išvesties prioritizavimo principas;
+\item Iteracijų prioritizavimo principas;
+\item Skaičiavimų prioritizavimo principas.
+\end{enumerate} 
 
+Toliau aprašyta kiekvienas principas ir kaip jie yra realizuojami „MacroBase“ analitinio įrankio.
+
+\subsubsection{Išvesties prioritizavimo principas}
+Išvesties prioritizavimas yra pasiekiamas grąžinant daugiau informacijos su mažesne išvestimi.  Analitinės sistemos prioritizuodamos duomenis bei atlikdamos sprendimą, kokius ir/ar kokio tipo duomenis rodyti naudotojui turi tai atlikti protingai ir pateikti naudotojui ne daug konkrečių duomenų taškų, o kelis apibendrintus ir sugrupuotus. Tolesniam pioritizavimui, duomenys turėtų būti reitinguojami ir pateikiami jų svarbos ir reikšmingumo tvarka.\par
+
+„MacroBase“ šis principas yra adaptuojamas leidžiant naudotojui pasirinkti analizės metrikas bei atributus, ir išvedant anomalijas pasirinktai metrikai, kurias aiškina būtent pasirinktas atributas \cite{prioritizing_attention}. Be to, „MacroBase“ suteikia galimybę pasiekti duomenų hierarchiją, taip taupant žmogaus dėmesį rodant bendrus rezultatus, bet reikiant yra galimybė duomenis peržiūrėti detalesniame lygyje.
+
+\subsubsection{Iteracijų prioritizavimo principas}
+Analitinių sistemų vystymas turi būti paremtas iteracijomis ir grįžtamuoju ryšiu (angl. \textit{feedback-driven}). Yra geriau  suteikti sistemai naudingus numatytuosius nustatymus bei padaryti analizės darbo procesą lengvai konfigūruojama, nei versti naudotojams tai daryti patiems. Vienodos, klaidoms atsirasti aplinkybes suteikiančios, nuobodžios ir varginančios užduotys turėtų būti automatizuojamos sistemos, taip lengvinant naudotojų. Visas sistemos naudotojo dėmesys turėtų būt sutelktas į taikomąją sritį ir į jai specifines žinias. Šie du principai suteikia net ir geriausiems analitiniams procesams galimybę didinti darbo mastą ir apdorojamų duomenų kiekį.\par
+
+„MacroBase“ pateikia skirtingas naudotojų sąsajas, skirtas įvairios kvalifikacijos analitikams, ar skirtingiems panaudojimų reikalavimams. Taip pat, „MacroBase“ pateikia numatytuosius nustatymus, leidžiančius pradėti darbą tik įdiegus programinę įrangą ir juos redaguoti darbo proceso metu \cite{prioritizing_attention}. Galiausiai, atviro kodo programinės įrangos „MacroBase“ internetiniame puslapyje galima užduoti klausimus ir pranešti apie sistemines klaidas.
+
+\subsubsection{Skaičiavimų prioritizavimo principas}
+Sistema turi prioritizuoti skaičiavimus su duomenimis, kurie daro didžiausią įtaką rezultatui, nes greičiausias būdas skaičiuoti (angl. \textit{compute}) yra vengti skaičiavimų. Darbas su įvestimi yra prioritizuojamas atsižvelgiant į išvestį, taip atliekant skaičiavimus su duomenimis, kurie prisideda labiausiai prie rezultato. Labai naudingi yra inkrementiniai algoritmai, kurie ilgų ir daug resursų reikalaujančius skaičiavimus išsisaugo (angl. \textit{cache}) ir panaudoja pakartotinai.\par
+
+„MacroBase“ analitinis įrankis prioritizuoja skaičiavimus fokusuodamasis į galutinius skaičiavimų rezultatus. Taip yra sutaupomas žymus kiekis nereikalingo darbo \cite{prioritizing_attention} ir „MacroBase“ gali pateikti skaičiavimų rezultatus greitai ir efektyviai.
 
 \subsection{„MacroBase GUI“} \label{subsec:macrobase_gui}
+Šiame skyriuje trumpai aprašomas „MacroBase GUI“ analitinio įrankis „MacroBase“ su grafine vartotojo sąsaja. „MacroBase GUI“ dėl savo grafinio aspekto ir lengvai suprantamos darbo eigos yra paprasčiausiai naudojama „MacroBase“ sąsaja \cite{macrobase_overview, prioritizing_attention}.\par
+
+„MacroBase“ gauna duomenis iš naudotojo įvestos duomenų bazės serverio bei norimos lentelės (\ref{img:query} pav.) (pvz.: \code{SELECT * FROM sensor\_data} arba \url{csv://sample.csv}) (Priedas \ref{sec:macrogui}). Gaunamas visų duomenų rinkiniui priklausančių stulpelių sąrašas (\ref{img:all} pav.). Iš sąrašo pasirenkamas vienas ar keli aiškinamieji atributai (\ref{img:atributes} pav.) ir metrikos (\ref{img:metrics} pav.). „MacroBase GUI“ išanalizuoja pateiktus duomenis pagal pasirinktus atributus ir metrikas ir atvaizduoja sugeneruotą rezultatą (\ref{img:analyze} pav.). Rezultate yra atvaizduojama skaičiavimo statistikos:
+\begin{itemize}
+\item \textbf{Išskirčių skaičiaus} (angl. \textit{Outlier});
+\item \textbf{Neišskirčių skaičiaus} (angl. \textit{Inlier});
+\item \textbf{Krovimo laiko} (angl. \textit{Load Time});
+\item \textbf{Apdorojimo laiko} (angl. \textit{Processing Time});
+\item \textbf{Apibendrinimo laiko} (angl. \textit{Summarization Time});
+\end{itemize}
+
+Po statistikomis yra atvaizduojamas aptiktų atributų koreliacijų su metrikomis sąrašas jų svarbos tvarka. Kiekvienas rezultato įrašas susideda iš savų statistikų:
+\begin{itemize}
+\item \textbf{Atributų kombinacijos} (angl. \textit{Atributes});
+\item \textbf{Paramos} (angl. \textit{Support}) - dalis įrašų pažymėtų išskirtimis, kurie turi šią atributų kombinaciją. Teorinis minimumas yra „0“ (nei viena išskirtis neturi šios kombinacijos), maksimumas yra „1“ (visos išskirtys turi šią kombinaciją).
+\item \textbf{Santykio} (angl. \textit{Ratio Out/In} - dalis išskirčių turinčių šią atributų kombinaciją palyginus su dalimi neišskirčių turinčių šią atributų kombinaciją. „1“ reiškia, kad ši kombinacija tiek pat kartų buvo išskirtis ir neišskirtis. „Infinity“ reiškia, kad visi įrašai turintis šią atributų kombinaciją yra išskirtys.
+\item \textbf{Irašų} (angl. \textit{Records}) - skaičius išskirčių turinčių šią atributų kombinaciją.
+\end{itemize}
+
+Kiekvieną rezultato įrašą galima išskleisti (\ref{img:expand} pav.) ir peržiūrėti išskirties statistinius duomenis. Taip pat galima pasiekti atributų kombinaciją turinčių įrašų sąrašą (\ref{img:explore}).\par
+
+„MacroBase GUI“ yra paprasto analitinio įrankio „MacroBase“ funkcionalumo panaudojimo būdas. Šis įrankis yra pritaikomas praktikoje įvairių su „MacroBase“ bendradarbiaujančių kompanijų ir yra nuolatos tobulinamas. „MacroBase GUI“ suteikia galimybę atlikti analitinį darbą ne tik aukščiausią kvalifikaciją turintiems profesionalams. Todėl tai buvo eksperimentui pasirinktas „MacroBase“ naudojimo būdas.
 
 \section{Duomenų analizės eksperimentas naudojant „MacroBase“ analitinį įrankį}
 Eksperimentui atlikti buvo pasirinktas „MacroBase GUI“ analitinio įrankio „MacroBase“ grafinė naudotojo sąsaja. Į „MacroBase GUI“ eksperimento metu buvo žiūrima kaip į „juodąją dėžę“.  CSV tipo failai buvo pasirinktas duomenų šaltinio tipas atliekant eksperimentą.
 
-\subsection{Duomenų rinkinys}
+\subsection{Duomenų rinkinys} \label{subsec:data}
 Šiame poskyryje aprašyti eksperimentui pritaikyti „Backblaze“ standžiųjų diskų stebėjimo duomenys \cite{backblaze}.
 
 \subsubsection{Eksperimentui pritaikyti duomenys}
@@ -182,32 +222,32 @@ Eksperimentas atliktas naudojant individualius dienų failus, tačiau dėl dides
 \item Bendras CSV failas \textbf{„combine\_all.csv“}:
 \begin{itemize}
 \item Dydis: \textbf{2,5GB};
-\item Įrašų eilučių skaičius: \textbf{$8 949 492$};
+\item Įrašų eilučių skaičius: \textbf{8 949 492};
 \end{itemize}
 
 \item Sausio mėnesio CSV failas \textbf{„combine\_01.csv“}:
 \begin{itemize}
 \item Dydis: \textbf{846MB};
-\item Įrašų eilučių skaičius: \textbf{$3 039 306$};
+\item Įrašų eilučių skaičius: \textbf{3 039 306};
 \end{itemize}
 
 \item Vasario mėnesio CSV failas \textbf{„combine\_02.csv“}:
 \begin{itemize}
 \item Dydis: \textbf{782,3MB};
-\item Įrašų eilučių skaičius: \textbf{$2 803 852$};
+\item Įrašų eilučių skaičius: \textbf{2 803 852};
 \end{itemize}
 
 \item Kovo mėnesio CSV failas \textbf{„combine\_03.csv“}:
 \begin{itemize}
 \item Dydis: \textbf{868,2MB};
-\item Įrašų eilučių skaičius: \textbf{$3 106 334$}.
+\item Įrašų eilučių skaičius: \textbf{3 106 334}.
 \end{itemize}
 \end{itemize}
 
 \subsection{Eksperimentui naudotos aplinkos aprašimas}
 Eksperimentas buvo atliekamas naudojant „Ubuntu (64-bit)“ operacinę sistemą įdiegtą virtualioje mašinoje „Oracle VM VirtualBox“. „MacroBase GUI“ įdiegtas ir paruoštas darbui naudojantis „MacroBase“ dokumentaciją.
 
-\subsubsection{Virtuali mašina eksperimentui}
+\subsubsection{Virtuali mašina eksperimentui} \label{subsubsec:virtual}
 „MacroBase“ pateikiami pavyzdžiai ir konfigūraciniai nurodymai yra pateikiami „Linux“ operacinėms sistemoms. Todėl eksperimentui atlikti buvo pasirinkta atviro kodo nemokama operacinė sistema „Ubuntu“. Dėl paprastumo buvo nuspręsta operacinei sistemai naudoti virtualią mašiną. Atviro kodo nemokama virtuali mašina „Oracle VM VirtualBox“ buvo pasirinkta šiai užduočiai. Galutinės eksperimentui naudotos sisteminės specifikacijos:
 \begin{itemize}
 \item „Ubuntu“ operacinės sistemos 64 bitų versija \textbf{„Ubuntu (64-bit)“}, versija: \textbf{16.04 LTS};
@@ -230,7 +270,7 @@ Virtualios mašinos paruošimas darbui:
 \item Pasirenkama „Install“ ir sekant diegimo vedlį, įdiegiama „Ubuntu (64-bit)“ operacinė sistema.
 \end{enumerate}
 
-\subsubsection{„MacroBase GUI“ analitinio įrankio su grafine naudotojo sąsaja paruošimas}
+\subsubsection{„MacroBase GUI“ analitinio įrankio su grafine naudotojo sąsaja paruošimas} \label{subsubsec:macrogui}
 Sekant „MacroBase“ dokumentacijoje nurodytus žingsnius įdiegiamas „MacroBase GUI“ \cite{macrobase_doc}:
 \begin{enumerate}
 \item Atidaromas „Ubuntu“ Terminalas;
@@ -250,10 +290,12 @@ Sėkmingam „MacroBase“ diegimo procesui naujai įdiegtoje, „švarioje“ �
 \item Java JDK \cite{jre_jdk} diegimas:\\\code{sudo apt-get install default-jdk}
 \end{enumerate}
 
-\subsection{Eksperimento vykdymo eiga}
+\subsection{Eksperimento vykdymo eiga} \label{subsec:exp}
 Šiame poskyryje aprašoma eksperimento vykdymo eiga naudojant „Backblaze“ pateiktus 2018 metų pirmo ketvirčio duomenų rinkinius. 
+
 \subsubsection{Eksperimento eiga su „Backblaze“ duomenimis}
 Su „Backblaze“ duomenų rinkiniais nagrinėjamas eksperimentas: Diskų, kurie turi didžiausia tikimybę sugesti artimoje ateityje aptikimas. „Backblaze“ naudoja SMART 5, 187, 188, 197 ir 198 (Priedas \ref{sec:smart}) atributus diskų, kurie turi didžiausią tikimybę greitai sugesti numatymui \cite{backblaze_failure}. Eksperimento metu bus analizuojama, kokie diskų modeliai yra labiausiai linkę daryti kritines klaidas ir ar šie duomenys koruliuoja su „Backblaze“ fiksuojamomis klaidomis ir keičiamais diskais.\par
+
 Šio eksperimento metu buvo paimtos pirmos 7 duomenų rinkinio dienos (2018-01-01 - 2018-01-07), iš „Backblaze“ įrašų sąrašo buvo pasirinktas vienas atributas - „Model“, nurodantis disko modelį, ir buvo ištirti tokie atvejai su visomis parinktomis dienomis:
 \begin{enumerate}
 \item Parinkta metrika: perskirstytų sektorių skaičiaus atributas (\textbf{smart 5 raw});
@@ -279,7 +321,7 @@ Apjungtiems mėnesio duomenų CSV failams buvo parinktas datos atributas. Eksper
 \subsubsubsection{Eksperimentas: darbas su dideliais CSV failais}
 Apjungti mėnesių CSV failai ir bendras viso „Backblaze“ ketvirčio CSV failas yra žymaus dydžio failai (apie 800MB ir apie 2,5GB). Mėnesiniai failai susideda iš vidutiniškai 3 mln. įrašų eilučių; bendras failas susideda iš beveik 9 mln įrašų eilučių. Todėl šiuo eksperimentu tiriama ar parengta eksperimentinė aplinka yra pajėgi dirbti su tokio dydžio duomenų rinkiniais, ir kiek laiko su jais užtruks darbas. Eksperimentui parinktas disko modelis kaip atributas. Šiam eksperimentui reikalinga paprasčiausia metrika, todėl metrikai buvo pasirinktas klaidos atributas, kuris gali įgyti tik dvi skirtingas reikšmes: „0“ arba „1“.
 
-\subsection{Eksperimento rezultatų analizė}
+\subsection{Eksperimento rezultatų analizė} \label{subsec:exprez}
 Šiame poskyryje aprašyta atliktų eksperimentų su „Backblaze“ 2018 metų pirmo ketvirčio duomenų rinkiniais bei apjungtais pagal mėnesius ir visų duomenų bendrai viename rinkinyje rezultatų analizė.
 
 \subsubsection{Eksperimentų su „Backblaze“ duomenimis gauti rezultatai} \label{subsubsec:backblazeExp}
@@ -314,7 +356,7 @@ Atliekant šį eksperimentą, buvo naudojami tie patys duomenys dideli duomenų 
 Atliekant eksperimento tyrimus buvo pastebėtas akivaizdus šuolis laiko atžvilgiu. Eksperimento su „Backblaze“ dienos failais (punktas \ref{subsubsec:backblazeExp}) ir viena metrika vidutinis laikas nuo analizės inicijavimo iki rezultatų pateikimo - 2 sekundės (\ref{tab:timeAvg} lentelė). Tačiau šio eksperimento metu analizės užtruko iki 1 minutės, o „MacorBase“, atliekant analizę bendram visų duomenų rinkinių failui, darbas buvo sustabdyta po 15 minučių veikimo. \par
 „MacroBase“ bendro visų duomenų rinkinio analizės korektiškai nebaigė dėl eksperimentinės aplinkos atminties trūkumo. Paduodant sudėtingesnes metrikas mėnesių duomenų rinkiniams - buvo gaunami vienodi rezultatai. Paruošta eksperimentinė aplinka nebuvo optimali darbui su 3 mln. įrašų eilučių duomenų rinkiniais, todėl tyrimas apsiribojo paprasčiausios metrikos rezultatais.
 
-\subsection{Eksperimento apibendrinimas ir išvados}
+\subsection{Eksperimento apibendrinimas ir išvados} \label{subsec:ExpApibendrinimas}
 Pirmojo eksperimentinio tyrimo metu buvo bandoma analizuojant „Backblaze“ standžiųjų diskų veikimo duomenis nuspėti, kokio modelio diskai turi didžiausią tikimybe sugesti bei būti pakeisti. Šio eksperimento tikslas buvo išnagrinėti „MacroBase GUI“ analitinio įrankio su grafine naudotojo sąsaja panaudojimo paprastumą. Iš gautų duomenų (Priedas \ref{sec:rez} ir Priedas \ref{sec:rezStats}) analizuojant duomenų rinkinius pagal metrikas SMART: 5 (\ref{tab:rez5} lentelė), 187 (\ref{tab:rez187} lentelė), 188 (\ref{tab:rez188} lentelė), 197 (\ref{tab:rez197} lentelė), 198 (\ref{tab:rez198} lentelė); buvo padarytas spėjimas, kad standieji diskai, kurių modelis yra „ST4000DM000“ turi didžiausią tikimybę sugesti. Šis sprendimas buvo padarytas remiantis faktu, kad „ST4000DM000“ modelio diskai buvo anomalijos su keturiomis metrikomis (187, 188, 197, 198) iš penkių. Spėjimo patikrinimui buvo išanalizuotas „Backblaze“ klaidos atributas (\ref{tab:rezFail} lentelė), kuris parodė jog šis spėjimas buvo pagrįstas ir teisingas, taip pat šį spėjimą patvirtino vėliau atlikto eksperimento su dideliais duomenimis (papunktis \ref{subsubsubsec:dideli}) rezultatai (Priedas \ref{sec:big}), kuriuose „ST4000DM000“ dominavo anomalijų skaičiumi sausio ir vasario mėnesiais (\ref{tab:rezBig} lentelė).\par
 
 Antrojo eksperimento metu buvo bandoma rasti koreliacijų tarp aukštos diskų temperatūros anomalijų ir dienos. Eksperimento paskirtis buvo parodyti, kad „MacroBase“ analitinis įrankis gali būti panaudojamas įvairių duomenų ir jų priklausomybių analizei, tam labai naudinga „MacroBase“ metrikų aiškinimo pagal atributus technologija. Eksperimento rezultatai (papunktis \ref{subsubsubsec:mėn}) parodė, kad 5 datos iš visų ketvirčiui priklausančių dienų buvo temperatūros anomalių priežastys (\ref{tab:rezMėn} lentelė). Vienas iš šių duomenų panaudojimo būdas galėtų būti standžiųjų diskų saugojimo patalpų  temperatūros stebėjimas bei reguliavimas. \par
@@ -325,10 +367,48 @@ Eksperimentų rezultatai parodė, kad „MacroBase GUI“ yra analitinis įranki
 
 
 \sectionnonum{Rezultatai ir išvados}
-Rezultatų ir išvadų dalyje turi būti aiškiai išdėstomi pagrindiniai darbo
-rezultatai (kažkas išanalizuota, kažkas sukurta, kažkas įdiegta) ir pateikiamos
-išvados (daromi nagrinėtų problemų sprendimo metodų palyginimai, teikiamos
-rekomendacijos, akcentuojamos naujovės).
+Darbo metu buvo įgyvendintas \textbf{tikslas} - panaudotas „MacroBase“ duomenų analizavimo ir anomalijų aptikimo įrankis. Juo išanalizuoti „Backblaze“ standžiųjų diskų veikimo proceso 2018 metų pirmo ketvirčio duomenų įrašai ir juose aptiktos anomalijos.\par
+
+Taip pat buvo įgyvendinti \textbf{uždavyniai}:
+
+\begin{enumerate}
+\item Aprašyti didieji duomenys, išskirti jų analizavimui keliami jau seniai apibrėžti ir naujai atrandami iššūkiai (\ref{sec:bigdata} skyrius).
+
+\item Aprašytas „MacroBase“ analitinis įrenginys, aprašytas veikimo seka, išskirti „MacroBase“ keliami ir sprendžiami iššūkiai, paaiškintas darbo procesas naudojantis „MacroBase GUI“ analitinį įrankį „MacroBase“ su grafine sąsaja (\ref{sec:macro} skyrius).
+
+\item Eksperimentui buvo paruoštas duomenų rinkinys naudojantis „Backblaze“ kiekvieną ketvirtį paviešinamais standžiųjų diskų stebėjimo duomenų rinkiniais, iš kurių buvo pasirinkta naudotis 2018 metų pirmo ketvirčio duomenimis. Buvo paruošti papildomi 4 duomenų failai (kiekvienam mėnesiui po atskirą ir vienas bendras), kuriems sukurti buvo parašytas paprastas BASH skriptas (Priedas \ref{sec:skriptas}) (\ref{subsec:data} poskyris).
+
+\item Eksperimentui atlikti buvo paruošta „Ubuntu (64-bit)“ operacinė sistema veikianti virtualioje mašinoje „Oracle VM VirtualBox“ (\ref{subsubsec:virtual} punktas). Buvo įdiegtas „MacroBase GUI“ analitinis įrankis „MacroBase“ su grafine sąsaja (\ref{subsubsec:macrogui} punktas).
+
+\item Buvo atlikti eksperimentai su „MacroBase GUI“ ir „Backblaze“ standžiųjų diskų duomenimis. Buvo atlikti trys eksperimentai: didžiausią tikimybę sugesti ateityje turinčių diskų nuspėjimas, dienų, kuriomis standžiųjų diskų temperatūros yra išskirtinai aukštos nustatymas, „MacroBase“ darbo su dideliais duomenų rinkiniais ir ribotais sisteminiais resursais stebėjimas (\ref{subsec:exp} poskyris).
+
+\item Buvo išanalizuoti „MacroBase GUI“ iš „Backblaze“ standžiųjų diskų duomenų rinkinių sugeneruoti rezultatai (\ref{subsec:exprez} poskyris):
+
+\begin{itemize}
+\item Analizuojant duomenis padarytas spėjimas, kad „ST4000DM000“ modelio standieji diskai yra  tiriamosios sąvaitės metu didžiausią tikimybę sugesti turintys diskai, nes keturių (SMART 187, 188, 197, 198) iš penkių (SMART 5, 187, 188, 197, 198) tirtų metrikų metu buvo atpažinti kaip išskirtys.
+
+\item Nustatyta, kad padarytas spėjimas buvo teisingas tiriant „Backblaze“ keistus mėnesio, kuriam priklausė tirtoji savaitė, diskus. Tą mėnesį buvo pakeisti 74 „ST4000DM000“ modelio diskai.
+
+\item Nustatyta, kad tik 5 iš 90 tirtų dienų standžiųjų diskų temperatūrą koruliavo su datos atributu.
+
+\item Nustatyta, kad „MacroBase“ ribotų sisteminių resursų aplinkoje geba analizuoti iki 3 mln įrašų, tačiau tik pagal paprastas metrikas.
+
+\item Nustatyta, kad eksperimentinėje aplinkoje „MacroBase“ negali korektiškai užbaigti analitinio darbo su 9 mln įrašų dėl per per mažos operatyviosios atminties.
+
+\item Nustatyta, kad „MacroBase“ geba grąžinti rezultatus dirbdamas su 100 tūkst. įrašų duomenų rinkiniais per trumpą laiko tarpą (2 sekundes).
+\end{itemize}
+
+\item Buvo pateiktos galutinės eksperimento išvados (\ref{subsec:ExpApibendrinimas} poskyris):
+\begin{itemize}
+\item „MacroBase GUI“ yra analitinis įrankis, kuriuo gali naudotis ne tik aukščiausios kvalifikacijos analitikai.
+
+\item „MacroBase“ rezultatų aiškinimo pagal atributus technologija yra geras žmogaus dėmesio prioritizavimo problemos sprendimas.
+
+\item „MacroBase“ yra optimalus analitinis įrankis gebantis generuoti rezultatus greitai, net ribotų sisteminių resursų atveju.
+
+\item Norint pasiekti geresnių ir greitesnių rezultatų bei dirbti su didesniais duomenų rinkiniais reikia „MacroBase“ išskirti daugiau sisteminių resursų nei buvo suteikta eksperimentinei aplinkai
+\end{itemize}
+\end{enumerate}
 
 \printbibliography[heading=bibintoc]
 
@@ -348,6 +428,56 @@ rekomendacijos, akcentuojamos naujovės).
 \end{itemize}
 
 \appendix
+
+\section{„MacroBase GUI“} \label{sec:macrogui}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/query}
+    \caption{„MacroBase GUI“ duomenų bazės ir lentelės pasirinkimas.}
+    \label{img:query}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/all}
+    \caption{„MacroBase GUI“ stulpelių sąrašas.}
+    \label{img:all}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/atributes}
+    \caption{„MacroBase GUI“ atributo pasirinkimas.}
+    \label{img:atributes}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/metrics}
+    \caption{„MacroBase GUI“ metrikos pasirinkimas.}
+    \label{img:metrics}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{img/analyze}
+    \caption{„MacroBase GUI“ analizuojamų duomenų rezultatai.}
+    \label{img:analyze}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/expand}
+    \caption{„MacroBase GUI“ išskleistas aiškinimas.}
+    \label{img:expand}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{img/explore}
+    \caption{„MacroBase GUI“ daugiau informacijos apie rezultatą.}
+    \label{img:explore}
+\end{figure}
 
 \section{„Backblaze“ duomenų SMART. atributų reikšmės} \label{sec:smart}
 „Backblaze“ naudoja „S.M.A.R.T.“ kietųjų diskų protokolavimui. Tačiau „Backblaze“ naudoja tik dalį „S.M.A.R.T.“ atributų:
