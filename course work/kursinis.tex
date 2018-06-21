@@ -15,6 +15,7 @@
 \usepackage{wrapfig}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage[backend=biber]{biblatex}
+\usepackage{enumitem}\setlist{nosep}
 
 % Titulinio aprašas
 \university{Vilniaus universitetas}
@@ -22,10 +23,10 @@
 \department{Programų sistemų katedra}
 \papertype{Kursinis darbas}
 \title{Didelių duomenų srautų analizė, anomalijų aptikimas}
-\titleineng{Big data analysis, detection of anomalies}
+\titleineng{Big Data Analysis, Detection of Anomalies}
 \status{3 kurso 3 grupės studentas}
 \author{Jokūbas Rusakevičius}
-\supervisor{dr. Vytautas Valaitis}
+\supervisor{asist. dr. Vytautas Valaitis}
 \date{Vilnius – \the\year}
 
 % Nustatymai
@@ -36,13 +37,15 @@
 \begin{document}
 \maketitle
 
+\setcounter{page}{2}
+
 \tableofcontents
 
 \sectionnonum{Įvadas}
 Šis darbas yra Programų Sistemų studijų trečio kurso privalomas kursinis darbas apie anomalijų aptikimą didžiuosiuose duomenyse (angl. \textit{Big Data}) bei anomalijų aptikimą naudojant atviro kodo analitinį įrankį „MacroBase“.
 
 \subsectionnonum{Problematika}
-Pasak MIT Media Lab direktoriaus Joi Ito, duomenų užrašymas ant popieriaus lapo dar visai neseniai buvo vienintelis būdas rinkti informaciją. Žmogus sugalvotas idėjas ir mintis užrašydamas ant popieriaus lapo jas paversdavo žiniomis. Tačiau dabartinė didžiųjų duomenų situacija yra kitokia. Priešingai nei seniau, surenkamų duomenų kiekiai yra milžiniški, tačiau jie nėra žinios, tol kol jų nepradedama nagrinėti ir analizuoti. Tik pradėjus analizuoti duomenis atliekant su jais įvairias transformacijas, galima pastebėti, kad gaunama įdomi ir netgi svarbi informacija\cite{documentary}. \par
+Pasak MIT Media Lab direktoriaus Joi Ito, duomenų užrašymas ant popieriaus lapo dar visai neseniai buvo vienintelis būdas rinkti informaciją. Žmogus sugalvotas idėjas ir mintis užrašydamas ant popieriaus lapo jas paversdavo žiniomis. Tačiau dabartinė didžiųjų duomenų situacija yra kitokia. Priešingai nei seniau, surenkamų duomenų kiekiai yra milžiniški, tačiau jie nėra žinios, tol kol jų nepradedama nagrinėti ir analizuoti. Tik pradėjus analizuoti duomenis atliekant su jais įvairias transformacijas, galima pastebėti, kad gaunama įdomi ir netgi svarbi informacija \cite{documentary}. \par
 
 Remiantis 2001 metais „Gartner“ pateiktu apibrėžimu (iki šiol laikomu pagrindiniu (angl. \textit{go-to})), didieji duomenys - tai duomenys, kurie turi didelę įvairovę (angl. \textit{variety}), yra renkami nuolat didėjančiais kiekiais (angl. \textit{volumes}) ir generuojami vis didėjančiais greičiais (angl. \textit{velocity}), šis apibrėžimas dar vadinamas tryjų „V“ \cite{three_vs}. Paprastai, didžiuosius duomenis galima apibrėžti kaip duomenų rinkinius tokius didelius, kad tradiciniai programiniai duomenų apdorojimo įrankiai nesugeba jų sugauti, tvarkyti, organizuoti, apdoroti ar su jais dirbti priimtiname laiko intervale \cite{bigdata_tolerable_time}, jie yra paprasčiausiai per dideli ir per daug sudėtingi. Tačiau šie duomenys turi milžinišką potencialą ir gali būti panaudojami sprendžiant verslo ir kitas problemos, kurių sprendimas iki šiol buvo neįmanomas.\par
 
@@ -60,12 +63,11 @@ Standfordo universitetas kartu su Masačusetso technologijos institutu 2017 meta
 Darbui iškelti \textbf{uždavyniai}:\par
 
 \begin{enumerate}
-\item Aprašyti „Didžiųjų Duomenų“ keliamas problemas.
+\item Identifikuoti	 „Didžiųjų Duomenų“ keliamas problemas.
 \item Aprašyti „MacroBase“ analitinį įrankį ir jo sprendžiamas problemas.
 \item Paruošti eksperimentui reikalingą įrašų rinkinį.
 \item Įsidiegti ir paruošti darbui „MacroBase“ analitinį įrankį.
 \item Atlikti eksperimentus ir aptikti anomalijas paruoštuose duomenyse.
-\item Pateikti galutines eksperimento išvadas.
 \end{enumerate}
 
 \section{Didieji duomenys, jų keliamos problemos} \label{sec:bigdata}
@@ -392,9 +394,12 @@ Taip pat buvo įgyvendinti \textbf{uždavyniai}:
 
 \item Buvo atlikti eksperimentai su „MacroBase GUI“ ir „Backblaze“ standžiųjų diskų duomenimis. Buvo atlikti trys eksperimentai: didžiausią tikimybę sugesti ateityje turinčių diskų nuspėjimas, dienų, kuriomis standžiųjų diskų temperatūros yra išskirtinai aukštos nustatymas, „MacroBase“ darbo su dideliais duomenų rinkiniais ir ribotais sisteminiais resursais stebėjimas (\ref{subsec:exp} poskyris).
 
-\item Buvo išanalizuoti „MacroBase GUI“ iš „Backblaze“ standžiųjų diskų duomenų rinkinių sugeneruoti rezultatai (\ref{subsec:exprez} poskyris):
+\item Buvo išanalizuoti „MacroBase GUI“ iš „Backblaze“ standžiųjų diskų duomenų rinkinių sugeneruoti rezultatai (\ref{subsec:exprez} poskyris).
 
-\begin{itemize}
+\end{enumerate}
+
+„MacroBase GUI“, naudojant „Backblaze“ standžiųjų diskų duomenų rinkinių duomenis, sugeneruotų rezultatų analizė:
+\begin{enumerate}
 \item Analizuojant duomenis padarytas spėjimas, kad „ST4000DM000“ modelio standieji diskai yra  tiriamosios sąvaitės metu didžiausią tikimybę sugesti turintys diskai, nes keturių (SMART 187, 188, 197, 198) iš penkių (SMART 5, 187, 188, 197, 198) tirtų metrikų metu buvo atpažinti kaip išskirtys.
 
 \item Nustatyta, kad padarytas spėjimas buvo teisingas tiriant „Backblaze“ sugedusius mėnesio, kuriam priklausė tirtoji savaitė, diskus bei palyginus gautus rezultatus. Tirtą mėnesį buvo pakeisti 74 „ST4000DM000“ modelio diskai.
@@ -406,10 +411,10 @@ Taip pat buvo įgyvendinti \textbf{uždavyniai}:
 \item Nustatyta, kad eksperimentinėje aplinkoje „MacroBase“ negali korektiškai užbaigti analitinio darbo su 9 mln įrašų dėl per per mažos operatyviosios atminties.
 
 \item Nustatyta, kad „MacroBase“ geba grąžinti rezultatus dirbdamas su 100 tūkst. įrašų duomenų rinkiniais per trumpą laiko tarpą (2 sekundes).
-\end{itemize}
+\end{enumerate}
 
-\item Buvo pateiktos galutinės eksperimento išvados (\ref{subsec:ExpApibendrinimas} poskyris):
-\begin{itemize}
+Atlikto eksperimento \textbf{galutinės išvados} (\ref{subsec:ExpApibendrinimas} poskyris):
+\begin{enumerate}
 \item „MacroBase GUI“ yra analitinis įrankis, kuriuo gali naudotis ne tik aukščiausios kvalifikacijos analitikai.
 
 \item „MacroBase“ rezultatų aiškinimo pagal atributus technologija yra geras žmogaus dėmesio prioritizavimo problemos sprendimas.
@@ -417,7 +422,6 @@ Taip pat buvo įgyvendinti \textbf{uždavyniai}:
 \item „MacroBase“ yra optimalus analitinis įrankis gebantis generuoti rezultatus greitai, net ribotų sisteminių resursų atveju.
 
 \item Norint pasiekti geresnių ir greitesnių rezultatų bei dirbti su didesniais duomenų rinkiniais reikia „MacroBase“ išskirti daugiau sisteminių resursų nei buvo suteikta eksperimentinei aplinkai eksperimento metu.
-\end{itemize}
 \end{enumerate}
 
 \printbibliography[heading=bibintoc]

@@ -187,7 +187,7 @@
   % Nustatome dokumentui 1,5 eilutės intervalą
   \onehalfspacing
 }
-
+  
 % Skyriaus pavadinimas, turinyje neturintis numerio
 \newcommand{\sectionnonum}[1]{%
     \section*{#1}%
@@ -323,3 +323,4 @@
 \renewcommand{\footnote}[1]{\oldfootnote{\onehalfspacing #1}}
 
 \newcommand{\code}[1]{\texttt{#1}}
+
